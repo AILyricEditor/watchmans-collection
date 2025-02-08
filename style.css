@@ -1,3 +1,10 @@
+:root {
+	--background: #00051d;
+	--primary: #4b4e5f;
+	--accent: rgb(0, 0, 255);
+	--border: #a7a7a7;
+}
+
 * {
 	padding: 0;
 	margin: 0;
@@ -6,5 +13,50 @@
 
 body, html {
 	width: 100%;
-	background: grey;
+	background: var(--background);
+}
+
+main {
+	width: 100%;
+	height: 100%;
+	padding: 30px;
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+	grid-template-rows: auto-fit;
+	gap: 25px;
+}
+
+.card {
+	height: 400px;
+	background: var(--primary);
+	border: 2px solid var(--accent);
+	border-radius: 5px;
+}
+
+.add {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	opacity: 0.5;
+}
+
+.add svg {
+	width: 30%;
+	height: 30%;
+	opacity: 1;
+}
+
+.add:hover {
+	transition: all 200ms ease;
+	opacity: 0.8;
+}
+
+@media screen and (max-width: 700px) {
+	main {
+		grid-template-columns: repeat(auto-fit, minmax(125px, 1fr));
+		gap: 20px;
+	}
+	.card {
+		height: 225px;
+	}
 }
