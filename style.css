@@ -4,6 +4,7 @@
 	--background: #00051d;
 	--primary: #4b4e5f;
 	--accent: rgb(0, 0, 255);
+	--gradient: linear-gradient(45deg, #4b4e5f 10%, #13141a 100%);
 	--text-color: #ebebeb;
 }
 
@@ -12,7 +13,7 @@
 	margin: 0;
 	box-sizing: border-box;
 	font-family: Rubik, sans-serif;
-	color: var(--text-color)
+	color: var(--text-color);
 }
 
 body, html {
@@ -32,10 +33,17 @@ main {
 
 .card {
 	height: 400px;
-	background: var(--primary);
+	background: var(--gradient);
+	opacity: 0.9;
 	border: 2px solid var(--accent);
 	border-radius: 5px;
 	padding: 10px;
+	transition: opacity 0.3s, transform 0.3s;
+}
+
+.card:hover {
+	transform: scale(1.03);
+	opacity: 1;
 }
 
 .add {
@@ -56,6 +64,12 @@ main {
 	transform: scale(1.05);
 	opacity: 0.8;
 }
+
+.add:active {
+	transform: scale(1.1);
+	opacity: 1;
+}
+
 
 @media screen and (max-width: 700px) {
 	main {
