@@ -35,10 +35,10 @@ main {
 
 .card {
 	position: relative;
-	display: grid;
-	grid-template-columns: 100%;
-	grid-template-rows: 300px auto 290px;
-	min-height: 400px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	min-height: fit-content;
 	background: var(--gradient);
 	opacity: 0.9;
 	border: 2px solid var(--accent);
@@ -53,22 +53,29 @@ main {
 }
 
 .image-input-wrap {
+	position: relative;
+	overflow: hidden;
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	flex-direction: column;
 	margin: 0 auto;
-	width: 90%;
-	height: 40%;
+	width: min(500px, 100%);
+	height: min(200px, 60%);
 	background: var(--primary);
 	border: 2px solid var(--border);
 	border-radius: 5px;
 	cursor: pointer;
-	grid-row: 1;
 }
 
 .image-input-wrap svg {
+	align-self: center;
 	width: 50px;
 	height: 50px;
+}
+
+.image-input-wrap h5 {
+	text-align: center;
 }
 
 .image-input {
@@ -79,13 +86,49 @@ main {
 	height: 100%;
 }
 
+.previewWrap {
+	position: relative;
+}
+
+#preview {
+	margin: 0 auto;
+	display: none;
+	max-width: min(500px, 100%);
+	height: auto;
+	max-height: 500px;
+}
+
+.previewWrap svg {
+	visibility: hidden;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 50px;
+	height: 50px;
+	translate: -50% -50%;
+	background:rgba(0, 0, 0, 0.753);
+	border-radius: 9999px;
+	padding: 10px;
+	cursor: pointer;
+	opacity: 0;
+	transition: all 0.2s ease-in-out;
+}
+
+.previewWrap svg:hover {
+	transform: scale(1.1);
+}
+
+.previewWrap:has(#preview[src]):hover svg {
+	visibility: visible;
+	opacity: 1;
+}
+
 .license-plate {
-	width: 100%;
+	width: 60%;
 	height: fit-content;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	grid-row: 3;
 }
 
 .license-plate img {
@@ -96,14 +139,17 @@ main {
 	position: absolute;
 	z-index: 1;
 	width: 90%;
-	font-size: 8vw;
+	font-size: 5vw;
 	font-family: 'Oswald', sans-serif;
 	outline: none;
 	color: red;
+	background: none;
+	border: none;
 	text-shadow: 
     -1px -1px 20px #ffffff, /* Top left highlight */
     1px 1px 2px rgba(0, 0, 0, 0.753); /* Bottom right shadow */
 	text-align: center;
+	text-transform: uppercase;
 }
 
 .add {
@@ -133,10 +179,14 @@ main {
 
 @media screen and (max-width: 700px) {
 	main {
-		grid-template-columns: repeat(auto-fit, minmax(125px, 1fr));
+		grid-template-columns: 1fr;
 		gap: 20px;
 	}
 	.card {
 		height: 225px;
+	}
+
+	.license-plate .license {
+		font-size: 9vw;
 	}
 }
