@@ -33,6 +33,8 @@ main {
 	gap: 25px;
 }
 
+
+
 .card {
 	position: relative;
 	display: flex;
@@ -52,50 +54,64 @@ main {
 	opacity: 1;
 }
 
-.image-input-wrap {
+
+
+
+
+
+
+.input {
 	position: relative;
-	overflow: hidden;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	flex-direction: column;
-	margin: 0 auto;
-	width: min(500px, 100%);
-	height: min(200px, 60%);
 	background: var(--primary);
 	border: 2px solid var(--border);
 	border-radius: 5px;
-	cursor: pointer;
 }
 
-.image-input-wrap svg {
-	align-self: center;
-	width: 50px;
-	height: 50px;
-}
-
-.image-input-wrap h5 {
-	text-align: center;
-}
-
-.image-input {
+.input input {
 	position: absolute;
 	opacity: 0;
 	z-index: 1;
 	width: 100%;
 	height: 100%;
+	cursor: pointer;
 }
+
+.input svg {
+	align-self: center;
+	width: 50px;
+	height: 50px;
+}
+
+.main-image-input-wrap {
+	margin: 0 auto;
+	width: min(500px, 100%);
+	height: min(200px, 60%);
+}
+
+.input:first-child {
+	text-align: center;
+}
+
+/* .face-image-input-wrap {
+  width: 100px;
+	height: 100px;
+	border-radius: 999px;
+	overflow:hidden;
+	position: relative;
+} */
 
 .previewWrap {
 	position: relative;
 }
 
-#preview {
-	margin: 0 auto;
+.previewWrap img {
+	/* margin: 0 auto; */
 	display: none;
-	max-width: min(500px, 100%);
-	height: auto;
-	max-height: 500px;
+	overflow: hidden;
 }
 
 .previewWrap svg {
@@ -112,16 +128,60 @@ main {
 	cursor: pointer;
 	opacity: 0;
 	transition: all 0.2s ease-in-out;
+	z-index: 1;
 }
 
 .previewWrap svg:hover {
 	transform: scale(1.1);
 }
 
-.previewWrap:has(#preview[src]):hover svg {
+.previewWrap:has(.preview[src]):hover svg {
 	visibility: visible;
 	opacity: 1;
 }
+
+.mainPreview {
+	max-width: min(500px, 100%);
+	height: auto;
+	max-height: 500px;
+}
+
+.face-image-input-wrap {
+  width: 100px;
+  height: 100px;
+  border-radius: 999px;
+  overflow: hidden; /* Clips any content that overflows */
+  position: relative;
+}
+
+.facePreview {
+  width: 100%;
+  height: 100%;
+  position: absolute; /* Positioning it inside the container */
+  top: 0;
+  left: 0;
+  object-fit: cover; /* Ensures the image fills the container while preserving aspect ratio */
+  display: none;
+}
+
+.facePreview:has(img[src]) {
+  display: block;
+}
+
+/* .face-circle {
+	border-radius: 999px;
+	border: 2px solid red;
+} */
+/* 
+.face-image-input-wrap:has(.preview[src]) svg, .face-image-input-wrap.previewWrap:has(.preview[src]):first-child  {
+	display: none;
+} */
+
+
+
+
+
+
 
 .license-plate {
 	width: 60%;
@@ -158,6 +218,7 @@ main {
 	align-items: center;
 	opacity: 0.5;
 	transition: opacity 0.3s, transform 0.3s;
+	order: 9999;
 }
 
 .add svg {
