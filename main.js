@@ -35,6 +35,7 @@ function addCard() {
 		</section>
 	`);
 	setEvents();
+	adjustFontSize();
 }
 
 function setEvents() {
@@ -70,3 +71,18 @@ function setEvents() {
 }
 
 setEvents();
+
+function adjustFontSize() {
+	const licenseInputs = document.querySelectorAll('.license-input');
+	const licenseImages = document.querySelectorAll(".license-image");
+
+	licenseInputs.forEach((license, index) => {
+		const licenseWidth = licenseImages[index].offsetWidth;
+		license.style.fontSize = `${licenseWidth / 4}px`;
+	});
+}
+
+// Call adjustFontSize when needed, for example, on window resize or when grid changes
+window.addEventListener('resize', adjustFontSize);
+
+adjustFontSize();
