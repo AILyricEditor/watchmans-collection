@@ -8,7 +8,7 @@
 	--gradient: linear-gradient(45deg, #4b4e5f 10%, #13141a 100%);
 	--border: #9da1b9;
 	--text-color: #ebebeb;
-	--edit-color: #1eff00
+	--edit-color: #1eff00;
 }
 
 * {
@@ -17,12 +17,15 @@
 	box-sizing: border-box;
 	font-family: Rubik, sans-serif;
 	color: var(--text-color);
+	/* transform: scale(1.01); */
 }
 
 body, html {
 	width: 100%;
 	background: var(--background);
-	overflow-x: hidden;
+	/* overflow-x: hidden; */
+	-webkit-font-smoothing: antialiased; /* For WebKit-based browsers */
+  -moz-osx-font-smoothing: grayscale; /* For Firefox on macOS */
 }
 
 #overlay {
@@ -75,8 +78,12 @@ main {
 	opacity: 1;
 }
 
-.card:has(.editMode) {
+.editMode {
 	border: 2px solid var(--edit-color);
+}
+
+.editMode .cardCount {
+	color: var(--edit-color);
 }
 
 .card.expanded {
@@ -85,7 +92,8 @@ main {
 	left: 50%;
 	translate: -50% -50%;
 	width: 50%;
-	height: 100%;
+	height: auto;
+	max-height: 90%;
 	z-index: 10;
 	opacity: 1;
 	transform: scale(0.9);
@@ -113,25 +121,40 @@ main {
 		justify-content: center;
 		flex-direction: row;
 		gap: 10px;
-		background: rgba(143, 143, 143, 0.63);
-		border: 1px solid var(--accent);
+		/* background: rgba(143, 143, 143, 0.63); */
+		border: 2px solid var(--accent);
 		border-radius: 10px;
 		padding: 4px 5px;
 		width: auto;
 		height: 35px;
+		transition: all 0.2s ease-in-out;
+	}
+
+	.cardTools:hover {
+		background: var(--accent);
+		scale: 1.1;
 	}
 
 	.editMode .cardTools {
-		border: 1px solid var(--edit-color);
+		border: 2px solid var(--edit-color);
+	}
+
+	.editMode .cardTools svg {
+		transition: all 0.2s ease-in-out;
+	}
+
+	.editMode .cardTools:hover svg {
+		fill: rgb(0, 0, 0);
+	}
+
+	.editMode .cardTools:hover {
+		background: var(--edit-color);
 	}
 
 	.cardTools > * {
 		width: 20px;
 		height: 20px;
 		cursor: pointer;
-	}
-
-	.edit-button {
 	}
 	
 	.cardTools {
@@ -158,10 +181,58 @@ main {
 		width: 10%;
 		height: auto;
 		cursor: pointer;
+		border-radius: 5px;
+		transition: all 0.2s ease-in-out;
+	}
+
+	.expand:hover {
+		background: var(--accent);
 	}
 
 	.expanded .expand {
-	   display: none;
+	  display: none;
+	}
+
+	.bottom-row {
+		width: 100%;
+		/* height: 40px; */
+	}
+
+	.delete-card {
+		display: none;
+		position: absolute;
+		right: 20px;
+		/* margin-bottom: 10px; */
+
+		/* margin-top: 30px; */
+		width: 100px;
+		height: 30px;
+		border: 2px solid red;
+		border-radius: 10px;
+		padding: 15px;
+		background: none;
+		align-items: center;
+		justify-content: center;
+		cursor: pointer;
+		transition: all 0.2s ease-in-out;
+	}
+
+	.delete-card:hover {
+		scale: 1.1;
+		background: red;
+	}
+
+	.delete-card svg {
+		fill: red;
+		transition: all 0.2s ease-in-out;
+	}
+
+	.delete-card:hover svg {
+		fill: white;
+	}
+
+	.editMode .delete-card {
+		display: flex;
 	}
 
 
@@ -320,15 +391,19 @@ main {
 
 
 
-
-
 .name label {
-	font-size: 0.55em;
+	display: none;
+}
+
+.editMode .name label {
+	font-size: 0.8em;
+	display: block
 }
 
 .nameTypeGroup {
 	display: flex;
 	flex-direction: column;
+	padding: 5px;
 }
 
 form.name-group {
@@ -347,6 +422,7 @@ form.name-group {
 .name input {
 	/* min-width: 75px; */
   width: auto;
+	font-size: 1.4em;
 }
 
 .nameInput-wrap {
@@ -436,7 +512,8 @@ form.name-group {
 
 	.card.expanded {
 		width: 95%;
-		height: 80%;
+		height: auto;
+		max-height: 80%;
 	}
 
 	.license-plate .license {
