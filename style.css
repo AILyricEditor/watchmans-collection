@@ -8,6 +8,7 @@
 	--gradient: linear-gradient(45deg, #4b4e5f 10%, #13141a 100%);
 	--border: #9da1b9;
 	--text-color: #ebebeb;
+	--edit-color: #1eff00
 }
 
 * {
@@ -21,15 +22,29 @@
 body, html {
 	width: 100%;
 	background: var(--background);
+	overflow-x: hidden;
+}
+
+#overlay {
+	/* display: none; */
+	backdrop-filter: blur(0px);
+	pointer-events: none;
+	transition: backdrop-filter 500ms ease;
+	width: 100%;
+	height: 100%;
+	position:fixed;
+	z-index: 2;
 }
 
 main {
+	/* isolation: isolate; */
 	width: 100%;
 	height: auto;
 	padding: 30px;
 	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 	grid-template-rows: auto;
+	/* justify-content: start; */
 	gap: 25px;
 }
 
@@ -38,6 +53,7 @@ main {
 /* All Cards styling */
 .card {
 	position: relative;
+	z-index: 1;
 	display: flex;
 	flex-direction: column;
 	align-items: start;
@@ -49,14 +65,104 @@ main {
 	opacity: 0.9;
 	border: 2px solid var(--accent);
 	border-radius: 5px;
-	padding: 20px 10%;
-	transition: opacity 0.3s, transform 0.3s;
+	padding: 20% 12%;
+	transition: opacity 0.3s, transform 0.3s, scale 500ms ease;
+	/* transition: scale 500ms ease; */
 }
 
 .card:hover {
-	transform: scale(1.03);
+	transform: scale(1.02);
 	opacity: 1;
 }
+
+.card:has(.editMode) {
+	border: 2px solid var(--edit-color);
+}
+
+.card.expanded {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	translate: -50% -50%;
+	width: 50%;
+	height: 100%;
+	z-index: 10;
+	opacity: 1;
+	transform: scale(0.9);
+	box-shadow: 0px 0px 50px rgba(0, 0, 0, 0.829);
+	padding: 60px 50px;
+	overflow-y: auto;
+}
+
+/* .card.expanded {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	translate: -50% -50%;
+	z-index: 10;
+	width: 300px;
+	height: 300px;
+	/* transform: scale(1.5); */
+	/* background-color: #e63946; */
+
+	.cardTools {
+		position: absolute;
+		top: 10px;
+		right: 10px;
+		align-items: center;
+		justify-content: center;
+		flex-direction: row;
+		gap: 10px;
+		background: rgba(143, 143, 143, 0.63);
+		border: 1px solid var(--accent);
+		border-radius: 10px;
+		padding: 4px 5px;
+		width: auto;
+		height: 35px;
+	}
+
+	.editMode .cardTools {
+		border: 1px solid var(--edit-color);
+	}
+
+	.cardTools > * {
+		width: 20px;
+		height: 20px;
+		cursor: pointer;
+	}
+
+	.edit-button {
+	}
+	
+	.cardTools {
+		display: none;
+	}
+
+	.expanded .cardTools {
+		display: flex;
+	}
+
+	.cardCount {
+		position: absolute;
+		top: 10px;
+		left: 10px;
+		font-size: 20px;
+		font-weight: bold;
+		color: var(--accent);
+	}
+
+	.expand {
+		position: absolute;
+		top: 5px;
+		right: 5px;
+		width: 10%;
+		height: auto;
+		cursor: pointer;
+	}
+
+	.expanded .expand {
+	   display: none;
+	}
 
 
 
@@ -328,7 +434,12 @@ form.name-group {
 		height: auto;
 	}
 
+	.card.expanded {
+		width: 95%;
+		height: 80%;
+	}
+
 	.license-plate .license {
-		font-size: 9vw;
+		/* font-size: 9vw; */
 	}
 }
