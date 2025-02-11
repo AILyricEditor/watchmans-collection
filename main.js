@@ -88,6 +88,22 @@ function adjustFontSize() {
 }
 
 // Call adjustFontSize when needed, for example, on window resize or when grid changes
-window.addEventListener('resize', adjustFontSize);
+window.addEventListener('resize', () => {adjustFontSize()});
 
 adjustFontSize();
+
+function adjustNamePositons() {
+	document.querySelectorAll('.info-input').forEach((input, index) => {
+		function adjustWidth() {
+			// let inputLeft = input.offsetLeft;
+			const nameType = document.querySelectorAll('.nameType');
+			input.style.width = Math.max(0, input.value.length * 10) + 'px';
+			if (input.value.length <= 3) input.style.width = "75px";
+			// nameType[index].style.left = `${input.offsetLeft}px`;
+		}
+		input.addEventListener('input', adjustWidth);
+		adjustWidth(); // Initialize on page load
+	});
+}
+
+adjustNamePositons();

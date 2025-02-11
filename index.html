@@ -42,7 +42,19 @@
 			</div>
 
 			<div class="name">
-				<h5>Name: </h5><input type="text" class="input name-input" maxlength="15" value="John Doe">
+				<h4>Name: </h4>
+				<div class="name-group">
+					<form class="nameInput-wrap">
+						<div class="nameTypeGroup">
+							<label for="name">First</label>
+							<input type="text" class="input info-input" id="name" name="name">
+						</div>
+						<div class="nameTypeGroup">
+							<label class="nameType" for="last">Last</label>
+							<input type="text" class="input info-input" id="last" maxlength="15" value="Doe">
+						</div>
+					</form>
+				</div>
 			</div>
 	
 			<!-- License Plate -->
