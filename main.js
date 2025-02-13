@@ -80,6 +80,8 @@ function update() {
 	editButton();
 	// Update the expand card functionality
 	expandCard();
+	// Update the name input's size 
+	autoNameLength();
 }
 
 // To Initialize all event listeners
@@ -136,22 +138,18 @@ function adjustFontSize() {
 	});
 }
 
-// function adjustNamePositons() {
-// 	document.querySelectorAll('.info-input').forEach((input, index) => {
-// 		function adjustWidth() {
-// 			// let inputLeft = input.offsetLeft;
-// 			const nameType = document.querySelectorAll('.nameType');
-// 			input.style.width = Math.max(0, input.value.length * 10) + 'px';
-// 			if (input.value.length <= 3) input.style.width = "75px";
-// 			// nameType[index].style.left = `${input.offsetLeft}px`;
-// 		}
-// 		input.addEventListener('input', adjustWidth);
-// 		adjustWidth(); // Initialize on page load
-// 	});
-// }
-
-// adjustNamePositons();
-
+function autoNameLength() {
+	const measurer = document.querySelectorAll(".text-measurer");
+	document.querySelectorAll(".info-input").forEach((input, index) => {
+		input.addEventListener("input", adjustWidth);
+		input.addEventListener("DOMContentLoaded", adjustWidth);
+		input.addEventListener("keydown", adjustWidth);
+		function adjustWidth() {
+			measurer[index].textContent = input.value || input.placeholder; // Match text
+			input.style.width = measurer[index].offsetWidth + 5 + "px"; // Adjust width
+		}
+	});
+}
 
 // Edit Button functionality 
 function editButton() {

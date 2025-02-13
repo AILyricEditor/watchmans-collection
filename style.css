@@ -407,7 +407,7 @@ main {
 }
 
 .nameTypeGroup {
-	display: flex;
+	display: inline-flex;
 	flex-direction: column;
 }
 
@@ -425,8 +425,19 @@ form.name-group {
 }
 
 .name input {
-	min-width: 20px;
-  width: auto;
+	/* min-width: 20px;
+  width: auto; */
+	font-size: 1.4em;
+	width: 60px; /* Initial width */
+  /* min-width: 75px; */
+  /* Prevent overflowing */
+}
+
+.text-measurer {
+  position: absolute;
+  visibility: hidden;
+  white-space: pre;
+  font: inherit; /* Ensure font matches input */
 	font-size: 1.4em;
 }
 
