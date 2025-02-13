@@ -71,11 +71,11 @@ main {
 	padding: 20% 12%;
 	transition: opacity 0.3s, transform 0.3s, scale 500ms ease;
 	/* transition: scale 500ms ease; */
-}
 
-.card:hover {
-	transform: scale(1.02);
-	opacity: 1;
+	&:hover {
+		transform: scale(1.02);
+		opacity: 1;
+	}
 }
 
 .editMode {
@@ -128,27 +128,29 @@ main {
 		width: auto;
 		height: 35px;
 		transition: all 0.2s ease-in-out;
+
+		&:hover {
+			background: var(--accent);
+			scale: 1.1;
+		}
 	}
 
-	.cardTools:hover {
-		background: var(--accent);
-		scale: 1.1;
-	}
+
 
 	.editMode .cardTools {
 		border: 2px solid var(--edit-color);
-	}
 
-	.editMode .cardTools svg {
-		transition: all 0.2s ease-in-out;
-	}
+		& svg {
+			transition: all 0.2s ease-in-out;
+		}
 
-	.editMode .cardTools:hover svg {
-		fill: rgb(0, 0, 0);
-	}
+		&:hover {
+			background: var(--edit-color);
+		}
 
-	.editMode .cardTools:hover {
-		background: var(--edit-color);
+		&:hover svg {
+			fill: rgb(0, 0, 0);
+		}
 	}
 
 	.cardTools > * {
@@ -183,10 +185,10 @@ main {
 		cursor: pointer;
 		border-radius: 5px;
 		transition: all 0.2s ease-in-out;
-	}
 
-	.expand:hover {
-		background: var(--accent);
+		&:hover {
+			background: var(--accent);
+		}
 	}
 
 	.expanded .expand {
@@ -202,9 +204,6 @@ main {
 		display: none;
 		position: absolute;
 		right: 20px;
-		/* margin-bottom: 10px; */
-
-		/* margin-top: 30px; */
 		width: 100px;
 		height: 30px;
 		border: 2px solid red;
@@ -215,22 +214,21 @@ main {
 		justify-content: center;
 		cursor: pointer;
 		transition: all 0.2s ease-in-out;
-	}
 
-	.delete-card:hover {
-		scale: 1.1;
-		background: red;
-	}
+		&:hover {
+			scale: 1.1;
+			background: red;
+		}
 
-	.delete-card svg {
-		fill: red;
-		transition: all 0.2s ease-in-out;
-	}
+		& svg {
+		  fill: red;
+			transition: all 0.2s ease-in-out;
+		}
 
-	.delete-card:hover svg {
-		fill: white;
+		&:hover svg {
+			fill: white;
+		}
 	}
-
 	.editMode .delete-card {
 		display: flex;
 	}
@@ -295,25 +293,43 @@ main {
 	max-width: 100%;
   max-height: 100%;
   object-fit: cover; /* Ensures the image covers the container while maintaining aspect ratio */
-}
 
-/* Edit Button for images */
-.preview-wrap svg {
-	visibility: hidden;
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	width: 50px;
-	height: 50px;
-	translate: -50% -50%;
-	background:rgba(0, 0, 0, 0.753);
-	border-radius: 9999px;
-	padding: 10px;
-	cursor: pointer;
-	opacity: 0;
-	transition: all 0.2s ease-in-out;
-	fill:#ffffff;
-	z-index: 3;
+	& svg {
+		visibility: hidden;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		width: 50px;
+		height: 50px;
+		translate: -50% -50%;
+		background:rgba(0, 0, 0, 0.753);
+		border-radius: 9999px;
+		padding: 10px;
+		cursor: pointer;
+		opacity: 0;
+		transition: all 0.2s ease-in-out;
+		fill:#ffffff;
+		z-index: 3;
+	
+		&:hover {
+			transform: scale(1.1);
+		}
+	}
+
+	&:hover svg {
+		visibility: visible;
+		opacity: 1;
+	}
+
+	& img {
+		display: none;
+		max-width: 100%;
+		height: auto;
+		max-height: 500px;
+		border-radius: 5px;
+		/* object-fit: contain; */
+		margin: auto;
+	}
 }
 
 .face .preview-wrap svg {
@@ -322,41 +338,19 @@ main {
 	padding: 10%;
 }
 
-.preview-wrap:hover svg {
-	visibility: visible;
-	opacity: 1;
-}
-
-.preview-wrap svg:hover {
-	transform: scale(1.1);
-}
-
-
-
-/* Actual preview image */
-.preview-wrap img {
-	display: none;
-	max-width: 100%;
-	height: auto;
-	max-height: 500px;
-	border-radius: 5px;
-	/* object-fit: contain; */
-	margin: auto;
-}
-
 /* Main styling */
 .input-group.main {
 	width: 100%;
 	height: auto;
 	align-self: center;
+
+	& img {
+		width: 100%;
+		height: auto;
+		border: 1px solid var(--accent);
+	}
 }
 
-/* Main styling */
-.input-group.main img {
-	width: 100%;
-	height: auto;
-	border: 1px solid var(--accent);
-}
 
 /* Face styling */
 .input-group.face {
@@ -364,32 +358,31 @@ main {
 	aspect-ratio: 1 / 1;
 	border-radius: 999px;
 	overflow: hidden;
-}
 
-.input-group.face.active {
-  border: 1px solid var(--accent);
-}
+	&.active {
+		border: 1px solid var(--accent);
+	}
 
-.input-group.face .preview-wrap {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	flex-shrink: 0;
-	border-radius: 999px;
-	overflow: hidden;
-}
+	& .preview-wrap {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-shrink: 0;
+		border-radius: 999px;
+		overflow: hidden;
+	}
 
-.input-group.face .preview-wrap img {
-	max-width: none;
-	width: 100%;
-	aspect-ratio: 1 / 1;
-	object-fit: cover;
-	position: relative;
-	top: 50%;
-	left: 50%;
-	translate: -50% -50%;
+	& .preview-wrap img {
+		max-width: none;
+		width: 100%;
+		aspect-ratio: 1 / 1;
+		object-fit: cover;
+		position: relative;
+		top: 50%;
+		left: 50%;
+		translate: -50% -50%;
+	}
 }
-
 
 
 
@@ -398,6 +391,15 @@ main {
 
 .name label {
 	display: none;
+}
+
+.name input {
+	/* min-width: 20px;
+  width: auto; */
+	font-size: 1.4em;
+	width: 60px; /* Initial width */
+  /* min-width: 75px; */
+  /* Prevent overflowing */
 }
 
 .editMode .name label {
@@ -424,15 +426,6 @@ form.name-group {
 	color: var(--text-color);
 }
 
-.name input {
-	/* min-width: 20px;
-  width: auto; */
-	font-size: 1.4em;
-	width: 60px; /* Initial width */
-  /* min-width: 75px; */
-  /* Prevent overflowing */
-}
-
 .text-measurer {
   position: absolute;
   visibility: hidden;
@@ -453,10 +446,6 @@ form.name-group {
 	margin-top: 10px;
 }
 
-/* .nameType {
-	position: absolute;
-} */
-
 
 
 
@@ -469,13 +458,12 @@ form.name-group {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-}
 
-.license-plate img {
-	width: 100%;
-}
+	& img {
+		width: 100%;
+	}
 
-.license-plate .license-input {
+	& .license-input {
 	position: absolute;
 	z-index: 1;
 	width: 100%;
@@ -487,8 +475,8 @@ form.name-group {
     1px 1px 2px rgba(0, 0, 0, 0.753); /* Bottom right shadow */
 	text-align: center;
 	text-transform: uppercase;
+	}
 }
-
 
 
 
@@ -499,30 +487,30 @@ form.name-group {
 	opacity: 0.5;
 	transition: opacity 0.3s, transform 0.3s;
 	order: 9999;
-}
 
-.add svg {
-	width: 30%;
-	height: 30%;
-	opacity: 1;
-}
+	& svg {
+		width: 30%;
+		height: 30%;
+		opacity: 1;
+	}
 
-.add:hover {
-	transform: scale(1.05);
-	opacity: 0.8;
-}
+	&:hover {
+		transform: scale(1.05);
+		opacity: 0.8;
+	}
 
-.add:active {
-	transform: scale(1.1);
-	opacity: 1;
+	&:active {
+		transform: scale(1.1);
+		opacity: 1;
+	}
 }
-
 
 @media screen and (max-width: 700px) {
 	main {
 		grid-template-columns: 1fr;
 		gap: 20px;
 	}
+
 	.card {
 		height: auto;
 	}
@@ -531,9 +519,5 @@ form.name-group {
 		width: 95%;
 		height: auto;
 		max-height: 80%;
-	}
-
-	.license-plate .license {
-		/* font-size: 9vw; */
 	}
 }
