@@ -257,8 +257,13 @@ main {
 
 .input-group svg {
 	align-self: center;
-	width: 50%;
-	height: 50%;
+	width: 40%;
+	height: 40%;
+}
+
+.expanded .input-group.main svg {
+  width: 30%;
+	height: 30%;
 }
 
 .input-group input {
@@ -420,7 +425,7 @@ form.name-group {
 }
 
 .name input {
-	/* min-width: 75px; */
+	min-width: 20px;
   width: auto;
 	font-size: 1.4em;
 }

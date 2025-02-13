@@ -30,7 +30,7 @@ function addCard() {
 					<svg class="editImage" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z"/></svg>
 				</div>
 
-				<h6 class="input-info">Add face</h6>
+				<h6 class="input-info" data-fontsize="3">Add face</h6>
 				<svg class="icon-upload" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/></svg>
 				<input type="file" class="input-file" accept="image/*">
 			</div>
@@ -65,15 +65,27 @@ function addCard() {
 			</div>
 		</section>
 	`;
-	setEvents();
-	adjustFontSize();
-	adjustNamePositons();
-	editButton();
-	expandCard();
+	update();
 	// closeCard();
 }
 
-function setEvents() {
+function update() {
+	// Update the image inputs
+	imageInput();
+	// Update font sizes
+	adjustFontSize();
+	// Call adjustFontSize when needed, for example, on window resize or when grid changes
+	window.addEventListener('resize', () => {adjustFontSize()});
+	// Update the edit buttons
+	editButton();
+	// Update the expand card functionality
+	expandCard();
+}
+
+// To Initialize all event listeners
+update();
+
+function imageInput() {
 	document.querySelectorAll(".input-file").forEach(input => {
 		input.addEventListener("change", function () {
 			const file = this.files[0];
@@ -105,47 +117,43 @@ function setEvents() {
 	});
 }
 
-setEvents();
-
 function adjustFontSize() {
 	const licenseInputs = document.querySelectorAll('.license-input');
 	const inputInfos = document.querySelectorAll(".input-info");
-	const card = document.querySelector(".card");
-	const cardWidth = card.offsetWidth;
+	const cards = document.querySelectorAll(".card");
+	const licenseImages = document.querySelectorAll(".license-input");
 
 	licenseInputs.forEach((license, index) => {
-		license.style.fontSize = `${cardWidth / 8}px`;
+		const licenseWidth = licenseImages[index].offsetWidth;
+		license.style.fontSize = `${licenseWidth / 6}px`;
 	});
 
 	inputInfos.forEach((info, index) => {
-		info.style.fontSize = `${cardWidth / 40}px`;
+		const parentWidth = info.parentElement.offsetWidth;
+		let dataFontSize = info.getAttribute("data-fontsize");
+		if (!dataFontSize) dataFontSize = 1;
+		info.style.fontSize = `${parentWidth / 25 * dataFontSize}px`;
 	});
 }
 
-// Call adjustFontSize when needed, for example, on window resize or when grid changes
-window.addEventListener('resize', () => {adjustFontSize()});
+// function adjustNamePositons() {
+// 	document.querySelectorAll('.info-input').forEach((input, index) => {
+// 		function adjustWidth() {
+// 			// let inputLeft = input.offsetLeft;
+// 			const nameType = document.querySelectorAll('.nameType');
+// 			input.style.width = Math.max(0, input.value.length * 10) + 'px';
+// 			if (input.value.length <= 3) input.style.width = "75px";
+// 			// nameType[index].style.left = `${input.offsetLeft}px`;
+// 		}
+// 		input.addEventListener('input', adjustWidth);
+// 		adjustWidth(); // Initialize on page load
+// 	});
+// }
 
-adjustFontSize();
-
-function adjustNamePositons() {
-	document.querySelectorAll('.info-input').forEach((input, index) => {
-		function adjustWidth() {
-			// let inputLeft = input.offsetLeft;
-			const nameType = document.querySelectorAll('.nameType');
-			input.style.width = Math.max(0, input.value.length * 10) + 'px';
-			if (input.value.length <= 3) input.style.width = "75px";
-			// nameType[index].style.left = `${input.offsetLeft}px`;
-		}
-		input.addEventListener('input', adjustWidth);
-		adjustWidth(); // Initialize on page load
-	});
-}
-
-adjustNamePositons();
+// adjustNamePositons();
 
 
 // Edit Button functionality 
-
 function editButton() {
 	const editButtons = document.querySelectorAll(".edit-button");
 
@@ -162,7 +170,6 @@ function editButton() {
 		});
 	});
 }
-editButton();
 
 function expandCard() {
 	document.querySelectorAll(".expand").forEach(button => {
@@ -172,7 +179,6 @@ function expandCard() {
 				this.parentElement.classList.add("expanded");
 				toggleOverlay();
 				adjustFontSize();
-				adjustNamePositons();
 			}
 		});
 	});
@@ -184,26 +190,10 @@ function expandCard() {
 			xButton.closest(".card").classList.remove("expanded"); // Close the card
 			xButton.closest(".card").classList.remove("editMode");
 			toggleOverlay();
-			
+			update();
 		});
 	});
 }
-
-expandCard();
-
-
-// function closeCard() {
-// 	document.querySelectorAll(".xButton").forEach((xButton, index) => {
-// 		xButton.addEventListener("click", function () {
-// 			const card = xButton.closest(".card"); // Use closest to find the nearest .card ancestor
-// 			if (card) {
-// 				card.classList.toggle("expanded");
-// 			}
-// 		});
-// 	});
-// }
-
-// closeCard();
 
 function toggleOverlay() {
 	const overlay = document.getElementById("overlay");
@@ -211,4 +201,3 @@ function toggleOverlay() {
 	overlay.style.backdropFilter == "blur(10px)" ? overlay.style.backdropFilter = "none" : overlay.style.backdropFilter = "blur(10px)";
 	overlay.style.pointerEvents == "auto" ? overlay.style.pointerEvents = "none" : overlay.style.pointerEvents = "auto";
 }
-	
