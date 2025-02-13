@@ -23,7 +23,6 @@
 body, html {
 	width: 100%;
 	background: var(--background);
-	/* overflow-x: hidden; */
 	-webkit-font-smoothing: antialiased; /* For WebKit-based browsers */
   -moz-osx-font-smoothing: grayscale; /* For Firefox on macOS */
 }
@@ -40,16 +39,14 @@ body, html {
 }
 
 main {
-	/* isolation: isolate; */
 	width: 100%;
-	/* height: auto; */
 	padding: 30px;
 	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-	/* grid-template-rows: auto; */
-	/* justify-content: start; */
 	gap: 25px;
 }
+
+
 
 
 
@@ -80,10 +77,32 @@ main {
 
 .editMode {
 	border: 2px solid var(--edit-color);
-}
 
-.editMode .cardCount {
-	color: var(--edit-color);
+	& .cardCount {
+		color: var(--edit-color);
+	}
+
+	& .cardTools {
+		border: 2px solid var(--edit-color);
+	
+		&:hover {
+			background: var(--edit-color);
+		}
+	
+		&:hover svg {
+			fill: rgb(0, 0, 0);
+		}
+	}
+
+	& .delete-card {
+		display: flex;
+	}
+
+	& .name label {
+		display: block;
+		margin-top: 10px;
+		font-size: 0.8em;
+	}
 }
 
 .card.expanded {
@@ -100,138 +119,115 @@ main {
 	box-shadow: 0px 0px 50px rgba(0, 0, 0, 0.829);
 	padding: 60px 50px;
 	overflow-y: auto;
+
+	& .expand {
+		display: none;
+	}
+
+	& .cardTools {
+		display: flex;
+	}
+
+	& .input-group.main svg {
+		width: 30%;
+		height: 30%;
+	}
 }
 
-/* .card.expanded {
+.cardTools {
 	position: absolute;
-	top: 50%;
-	left: 50%;
-	translate: -50% -50%;
-	z-index: 10;
-	width: 300px;
-	height: 300px;
-	/* transform: scale(1.5); */
-	/* background-color: #e63946; */
+	top: 10px;
+	right: 10px;
+	align-items: center;
+	justify-content: center;
+	flex-direction: row;
+	gap: 10px;
+	border: 2px solid var(--accent);
+	border-radius: 10px;
+	padding: 4px 5px;
+	width: auto;
+	height: 35px;
+	transition: all 0.2s ease-in-out;
 
-	.cardTools {
-		position: absolute;
-		top: 10px;
-		right: 10px;
-		align-items: center;
-		justify-content: center;
-		flex-direction: row;
-		gap: 10px;
-		/* background: rgba(143, 143, 143, 0.63); */
-		border: 2px solid var(--accent);
-		border-radius: 10px;
-		padding: 4px 5px;
-		width: auto;
-		height: 35px;
+	& svg {
 		transition: all 0.2s ease-in-out;
-
-		&:hover {
-			background: var(--accent);
-			scale: 1.1;
-		}
 	}
 
-
-
-	.editMode .cardTools {
-		border: 2px solid var(--edit-color);
-
-		& svg {
-			transition: all 0.2s ease-in-out;
-		}
-
-		&:hover {
-			background: var(--edit-color);
-		}
-
-		&:hover svg {
-			fill: rgb(0, 0, 0);
-		}
+	&:hover {
+		background: var(--accent);
+		scale: 1.1;
 	}
+}
 
-	.cardTools > * {
+
+
+.cardTools {
+	display: none;
+
+	& > * {
 		width: 20px;
 		height: 20px;
 		cursor: pointer;
 	}
-	
-	.cardTools {
-		display: none;
+}
+
+.cardCount {
+	position: absolute;
+	top: 10px;
+	left: 10px;
+	font-size: 20px;
+	font-weight: bold;
+	color: var(--accent);
+}
+
+.expand {
+	position: absolute;
+	top: 5px;
+	right: 5px;
+	width: 10%;
+	height: auto;
+	cursor: pointer;
+	border-radius: 5px;
+	transition: all 0.2s ease-in-out;
+
+	&:hover {
+		background: var(--accent);
+	}
+}
+
+.bottom-row {
+	width: 100%;
+}
+
+.delete-card {
+	display: none;
+	position: absolute;
+	right: 20px;
+	width: 100px;
+	height: 30px;
+	border: 2px solid red;
+	border-radius: 10px;
+	padding: 15px;
+	background: none;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	transition: all 0.2s ease-in-out;
+
+	&:hover {
+		scale: 1.1;
+		background: red;
 	}
 
-	.expanded .cardTools {
-		display: flex;
-	}
-
-	.cardCount {
-		position: absolute;
-		top: 10px;
-		left: 10px;
-		font-size: 20px;
-		font-weight: bold;
-		color: var(--accent);
-	}
-
-	.expand {
-		position: absolute;
-		top: 5px;
-		right: 5px;
-		width: 10%;
-		height: auto;
-		cursor: pointer;
-		border-radius: 5px;
+	& svg {
+		fill: red;
 		transition: all 0.2s ease-in-out;
-
-		&:hover {
-			background: var(--accent);
-		}
 	}
 
-	.expanded .expand {
-	  display: none;
+	&:hover svg {
+		fill: white;
 	}
-
-	.bottom-row {
-		width: 100%;
-		/* height: 40px; */
-	}
-
-	.delete-card {
-		display: none;
-		position: absolute;
-		right: 20px;
-		width: 100px;
-		height: 30px;
-		border: 2px solid red;
-		border-radius: 10px;
-		padding: 15px;
-		background: none;
-		align-items: center;
-		justify-content: center;
-		cursor: pointer;
-		transition: all 0.2s ease-in-out;
-
-		&:hover {
-			scale: 1.1;
-			background: red;
-		}
-
-		& svg {
-		  fill: red;
-			transition: all 0.2s ease-in-out;
-		}
-
-		&:hover svg {
-			fill: white;
-		}
-	}
-	.editMode .delete-card {
-		display: flex;
-	}
+}
 
 
 
@@ -251,39 +247,34 @@ main {
 	border: 1px solid var(--border);
 	border-radius: 5px;
 	text-align: center;
-}
 
-.input-group svg {
-	align-self: center;
-	width: 40%;
-	height: 40%;
-}
+	& svg {
+		align-self: center;
+		width: 40%;
+		height: 40%;
+	}
 
-.expanded .input-group.main svg {
-  width: 30%;
-	height: 30%;
-}
+	& input {
+		position: absolute;
+		opacity: 0;
+		width: 100%;
+		height: 100%;
+		cursor: pointer;
+	}
 
-.input-group input {
-	position: absolute;
-	opacity: 0;
-	width: 100%;
-	height: 100%;
-	cursor: pointer;
-}
+	& .input-info {
+		font-size: 0.8em;
+	}
 
-.input-group .input-info {
-	font-size: 0.8em;
-}
- 
-/* Hiding logic active class givin by javaScript  */
-.input-group.active {
-	background: none;
-	border: none;
-}
+	/* Hiding logic active class givin by javaScript  */
+	&.active {
+		background: none;
+		border: none;
 
-.input-group.active *:not(.preview-wrap, .preview-wrap svg, .preview-wrap svg path) {
-	display: none;
+		& *:not(.preview-wrap, .preview-wrap svg, .preview-wrap svg path) {
+			display: none;
+		}
+	}
 }
 
 
@@ -388,24 +379,15 @@ main {
 
 
 
+.name {
+	& label {
+		display: none;
+	}
 
-.name label {
-	display: none;
-}
-
-.name input {
-	/* min-width: 20px;
-  width: auto; */
-	font-size: 1.4em;
-	width: 60px; /* Initial width */
-  /* min-width: 75px; */
-  /* Prevent overflowing */
-}
-
-.editMode .name label {
-	font-size: 0.8em;
-	display: block;
-	margin-top: 10px;
+	& input {
+		font-size: 1.4em;
+		width: 60px; /* Initial width */
+	}
 }
 
 .nameTypeGroup {
@@ -445,10 +427,6 @@ form.name-group {
 	height: 10px;
 	margin-top: 10px;
 }
-
-
-
-
 
 
 
