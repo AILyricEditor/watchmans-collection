@@ -17,7 +17,6 @@
 	box-sizing: border-box;
 	font-family: Rubik, sans-serif;
 	color: var(--text-color);
-	/* transform: scale(1.01); */
 }
 
 body, html {
@@ -49,6 +48,32 @@ main {
 
 
 
+::-webkit-scrollbar {
+	width: 10px;
+}
+
+::-webkit-scrollbar-track {
+	background: var(--background);
+	border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+	background: var(--primary);
+	border-radius: 10px;
+	
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background: color-mix(in srgb, var(--primary) 80%, white 20%);
+}
+
+::-webkit-scrollbar-thumb:active {
+	background: var(--accent);
+}
+
+
+
+
 
 /* All Cards styling */
 .card {
@@ -62,7 +87,7 @@ main {
 	height: auto;
 	min-height: 200px;
 	background: var(--gradient);
-	opacity: 0.9;
+	opacity: 0.85;
 	border: 2px solid var(--accent);
 	border-radius: 5px;
 	padding: 20% 12%;
@@ -164,6 +189,7 @@ main {
 .cardTools {
 	display: none;
 
+	/* For all icons */
 	& > * {
 		width: 20px;
 		height: 20px;
