@@ -92,10 +92,9 @@ main {
 	border-radius: 5px;
 	padding: 20% 12%;
 	transition: opacity 0.3s, transform 0.3s, scale 500ms ease;
-	/* transition: scale 500ms ease; */
 
 	&:hover {
-		transform: scale(1.02);
+		transform: scale(1.03);
 		opacity: 1;
 	}
 }
@@ -125,8 +124,6 @@ main {
 
 	& .name label {
 		display: block;
-		margin-top: 10px;
-		font-size: 0.8em;
 	}
 }
 
@@ -135,13 +132,13 @@ main {
 	top: 50%;
 	left: 50%;
 	translate: -50% -50%;
-	width: 50%;
+	width: 60%;
 	height: auto;
 	max-height: 90%;
-	z-index: 10;
+	z-index: 3;
 	opacity: 1;
 	transform: scale(0.9);
-	box-shadow: 0px 0px 50px rgba(0, 0, 0, 0.829);
+	box-shadow: 0px 0px 50px rgba(0, 0, 0, 0.863);
 	padding: 60px 50px;
 	overflow-y: auto;
 
@@ -152,11 +149,6 @@ main {
 	& .cardTools {
 		display: flex;
 	}
-
-	& .input-group.main svg {
-		width: 30%;
-		height: 30%;
-	}
 }
 
 .cardTools {
@@ -164,7 +156,6 @@ main {
 	top: 10px;
 	right: 10px;
 	align-items: center;
-	justify-content: center;
 	flex-direction: row;
 	gap: 10px;
 	border: 2px solid var(--accent);
@@ -176,6 +167,14 @@ main {
 
 	& svg {
 		transition: all 0.2s ease-in-out;
+
+		&:hover {
+			scale: 1.1;
+		}
+
+		&:active {
+			scale: 1.3;
+		}
 	}
 
 	&:hover {
@@ -292,25 +291,24 @@ main {
 		font-size: 0.8em;
 	}
 
-	/* Hiding logic active class givin by javaScript  */
+	/* Hiding logic "active" class givin by javaScript  */
 	&.active {
 		background: none;
 		border: none;
 
-		& *:not(.preview-wrap, .preview-wrap svg, .preview-wrap svg path) {
+		& > *:not(.preview-wrap) {
 			display: none;
 		}
 	}
 }
 
-
 /* The preview wrap */
 .preview-wrap {
-	/* position: absolute; */
 	max-width: 100%;
   max-height: 100%;
   object-fit: cover; /* Ensures the image covers the container while maintaining aspect ratio */
 
+	/* Edit image button */
 	& svg {
 		visibility: hidden;
 		position: absolute;
@@ -341,17 +339,16 @@ main {
 	& img {
 		display: none;
 		max-width: 100%;
-		height: auto;
 		max-height: 500px;
-		border-radius: 5px;
-		/* object-fit: contain; */
+		height: auto;
 		margin: auto;
+		border-radius: 5px;
 	}
 }
 
 .face .preview-wrap svg {
 	width: 50%;
-	height: 50%;
+	height: auto;
 	padding: 10%;
 }
 
@@ -408,6 +405,8 @@ main {
 .name {
 	& label {
 		display: none;
+		margin-top: 10px;
+		font-size: 0.8em;
 	}
 
 	& input {
@@ -458,7 +457,6 @@ form.name-group {
 
 .license-plate {
 	width: 60%;
-	/* height: fit-content; */
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -472,7 +470,6 @@ form.name-group {
 	z-index: 1;
 	width: 100%;
 	font-family: 'Oswald', sans-serif;
-	/* font-size: 1em; */
 	color: red;
 	text-shadow: 
     -1px -1px 20px #ffffff, /* Top left highlight */
