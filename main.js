@@ -13,6 +13,7 @@ class Card {
 	}
 
 	update() {
+		if (!this.self) return;
 		this.autoNameLength();
 		this.autoFontSize();
 	}
@@ -126,6 +127,14 @@ document.addEventListener("DOMContentLoaded", () => {
 		const editImage = e.target.closest(".editImage");
 		if (editImage && card.contains(editImage)) {
 			editImage.parentElement.parentElement.querySelector(".input-file").click();
+		}
+
+		const deleteCard = e.target.closest(".delete-card");
+		if (deleteCard && card.contains(deleteCard)) {
+			const index = Array.from(document.querySelectorAll(".card")).indexOf(card) - 1;
+			cards.splice(index, 1);
+			card.remove();
+			toggleOverlay();
 		}
 	});
 
