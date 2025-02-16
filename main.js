@@ -1,10 +1,11 @@
 class Card {
-	constructor() {
-		// this.html = cardHTML;
-		const allCards = document.querySelectorAll(".card");
-		this.index = allCards.length - 1;
-		this.self = document.querySelectorAll(".card")[allCards.length - 1];
+	constructor(index) {
+		this.index = index;
 		this.update();
+	}
+
+	get self() {
+		return document.querySelectorAll(".card")[this.index];
 	}
 
 	get innerHTML() {
@@ -12,20 +13,14 @@ class Card {
 	}
 
 	update() {
-		this.self = document.querySelectorAll(".card")[this.index];
-		this.self.querySelector(".expand").addEventListener("click", () => { this.expand(); });
-		this.self.querySelector(".xButton").addEventListener("click", () => { this.close(); });
-		this.self.querySelector(".edit-button").addEventListener("click", () => { this.toggleEdit(); });
-		this.inputImage();
 		this.autoNameLength();
-		this.adjustFontSize();
+		this.autoFontSize();
 	}
 
 	expand() {
-		console.log("expnaded");
 		document.querySelectorAll(".card").forEach(el => el.classList.remove("expanded"));
 		this.self.classList.add("expanded");
-		this.adjustFontSize();
+		this.autoFontSize();
 		toggleOverlay();
 	}
 
@@ -36,35 +31,11 @@ class Card {
 		update();
 	}
 
-	inputImage() {
-		this.self.querySelectorAll(".input-file").forEach((input, index) => {
-			input.addEventListener("change", function () {
-				const file = this.files[0];
-
-				if (file) {
-					const reader = new FileReader();
-					reader.onload = function (e) {
-						const preview = input.closest(".input-group").querySelector(".preview");
-						preview.src = e.target.result;
-						preview.style.display = "block"; // Show the image
-
-						// Edit image button
-						const editImage = input.closest(".input-group").querySelector(".editImage");
-						editImage.addEventListener("click", function (e) {
-							input.click();
-						})
-
-						// Get parent group
-						let parentGroup = input.closest(".input-group"); // Use `input` instead
-						parentGroup.classList.add("active");
-					};
-					reader.readAsDataURL(file);
-				}
-			});
-		});
+	toggleEdit() {
+		this.self.classList.toggle("editMode");
 	}
 
-	adjustFontSize() {	
+	autoFontSize() {	
 		const licenseInput = this.self.querySelector('.license-input');
 		
 		licenseInput.style.fontSize = `${this.self.offsetWidth / 8}px`;
@@ -76,10 +47,6 @@ class Card {
 			if (!dataFontSize) dataFontSize = 1;
 			input.style.fontSize = `${this.self.offsetWidth / 25 / dataFontSize}px`;
 		});
-	}
-
-	toggleEdit() {
-		this.self.classList.toggle("editMode");
 	}
 
 	autoNameLength() {
@@ -97,31 +64,87 @@ class Card {
 }
 
 let cards = [];
-document.addEventListener("DOMContentLoaded", () => {
-	cards.push(new Card());
-});
+
+document.addEventListener("DOMContentLoaded", () => { cards.push(new Card(cardCount)); });
 
 function addCard() {
 	cardCount++;
 	const cardArea = document.getElementById("cardArea")
 	cardArea.innerHTML += cardHTML;
-	cards.push(new Card());
+	cards.push(new Card(cardCount));
 
 	update();
 }
 
 function update() {
-	// Call adjustFontSize when needed, for example, on window resize or when grid changes
-	window.addEventListener('resize', () => { update() }, {once: true});
 	// Update font sizes
+	window.addEventListener('resize', () => { update() }, {once: true});
 	cards.forEach((card, index) => { card.update(); });
 }
 
 // To Initialize all event listeners
 update();
 
+
+
 function toggleOverlay() {
 	const overlay = document.getElementById("overlay");
 	overlay.style.backdropFilter == "blur(10px)" ? overlay.style.backdropFilter = "none" : overlay.style.backdropFilter = "blur(10px)";
 	overlay.style.pointerEvents == "auto" ? overlay.style.pointerEvents = "none" : overlay.style.pointerEvents = "auto";
 }
+
+
+
+// Event Listeners
+document.addEventListener("DOMContentLoaded", () => {
+	// Expand, Close, EditImage and EditMode buttons
+	document.getElementById("cardArea").addEventListener("click", function (e) {
+		const card = e.target.closest(".card");
+		if (!card) return;
+
+		const expandButton = e.target.closest(".expand");
+    if (expandButton && card.contains(expandButton)) {
+        document.querySelectorAll(".card").forEach(el => el.classList.remove("expanded"));
+        card.classList.add("expanded");
+        toggleOverlay();
+        return;
+    }
+
+    const xButton = e.target.closest(".xButton");
+    if (xButton && card.contains(xButton)) {
+        card.classList.remove("expanded", "editMode");
+        toggleOverlay();
+        return;
+    }
+
+    const editButton = e.target.closest(".edit-button");
+    if (editButton && card.contains(editButton)) {
+        card.classList.toggle("editMode");
+        return;
+    }
+
+		const editImage = e.target.closest(".editImage");
+		if (editImage && card.contains(editImage)) {
+			editImage.parentElement.parentElement.querySelector(".input-file").click();
+		}
+	});
+
+	// Image Inputs
+	cardArea.addEventListener("change", function (e) {
+		if (e.target.matches(".input-file")) {
+			const input = e.target;
+			const file = input.files[0];
+
+			if (file) {
+				const reader = new FileReader();
+				reader.onload = function (event) {
+					const preview = input.closest(".input-group").querySelector(".preview");
+					preview.src = event.target.result;
+					preview.style.display = "block";
+					input.closest(".input-group").classList.add("active");
+				};
+				reader.readAsDataURL(file);
+			}
+		}
+	});
+});
