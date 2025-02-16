@@ -4,15 +4,19 @@ class Card {
 		const allCards = document.querySelectorAll(".card");
 		this.index = allCards.length - 1;
 		this.self = document.querySelectorAll(".card")[allCards.length - 1];
+		this.initiateEvents();
+	}
+
+	get innerHTML() {
+		return this.self.innerHTML;
+	}
+
+	initiateEvents() {
 		this.expand();
 		this.imageInput();
 		this.adjustFontSize();
 		this.toggleEdit();
 		this.autoNameLength();
-	}
-
-	get innerHTML() {
-		return this.self.innerHTML;
 	}
 
 	expand() {
