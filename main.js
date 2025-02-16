@@ -4,56 +4,56 @@ class Card {
 		const allCards = document.querySelectorAll(".card");
 		this.index = allCards.length - 1;
 		this.self = document.querySelectorAll(".card")[allCards.length - 1];
-		this.initiateEvents();
+		this.update();
 	}
 
 	get innerHTML() {
 		return this.self.innerHTML;
 	}
 
-	initiateEvents() {
-		this.expand();
-		this.imageInput();
-		this.adjustFontSize();
-		this.toggleEdit();
+	update() {
+		this.self = document.querySelectorAll(".card")[this.index];
+		this.self.querySelector(".expand").addEventListener("click", () => { this.expand(); });
+		this.self.querySelector(".xButton").addEventListener("click", () => { this.close(); });
+		this.self.querySelector(".edit-button").addEventListener("click", () => { this.toggleEdit(); });
+		this.inputImage();
 		this.autoNameLength();
+		this.adjustFontSize();
 	}
 
 	expand() {
-		this.self.querySelector(".expand").addEventListener("click", () => {
-			document.querySelectorAll(".card").forEach(el => el.classList.remove("expanded"));
-			this.self.classList.add("expanded");
-			this.adjustFontSize();
-			console.log("Expanded")
-			toggleOverlay();
-		});
-
-		this.self.querySelector(".xButton").addEventListener("click", () => {
-			this.self.classList.remove("expanded");
-			this.self.classList.remove("editMode");
-			toggleOverlay();
-			update();
-		});
+		console.log("expnaded");
+		document.querySelectorAll(".card").forEach(el => el.classList.remove("expanded"));
+		this.self.classList.add("expanded");
+		this.adjustFontSize();
+		toggleOverlay();
 	}
 
-	imageInput() {
-		document.querySelectorAll(".input-file").forEach(input => {
+	close() {
+		this.self.classList.remove("expanded");
+		this.self.classList.remove("editMode");
+		toggleOverlay();
+		update();
+	}
+
+	inputImage() {
+		this.self.querySelectorAll(".input-file").forEach((input, index) => {
 			input.addEventListener("change", function () {
 				const file = this.files[0];
-	
+
 				if (file) {
 					const reader = new FileReader();
 					reader.onload = function (e) {
 						const preview = input.closest(".input-group").querySelector(".preview");
 						preview.src = e.target.result;
 						preview.style.display = "block"; // Show the image
-	
+
 						// Edit image button
 						const editImage = input.closest(".input-group").querySelector(".editImage");
-						editImage.addEventListener("click", function () {
-							this.click();
+						editImage.addEventListener("click", function (e) {
+							input.click();
 						})
-	
+
 						// Get parent group
 						let parentGroup = input.closest(".input-group"); // Use `input` instead
 						parentGroup.classList.add("active");
@@ -79,9 +79,7 @@ class Card {
 	}
 
 	toggleEdit() {
-		this.self.querySelector(".edit-button").addEventListener("click", () => {
-			this.self.classList.toggle("editMode");
-		});
+		this.self.classList.toggle("editMode");
 	}
 
 	autoNameLength() {
@@ -116,10 +114,7 @@ function update() {
 	// Call adjustFontSize when needed, for example, on window resize or when grid changes
 	window.addEventListener('resize', () => { update() }, {once: true});
 	// Update font sizes
-	cards.forEach((card, index) => {
-		card.self = document.querySelectorAll(".card")[card.index];
-		card.adjustFontSize();
-	});
+	cards.forEach((card, index) => { card.update(); });
 }
 
 // To Initialize all event listeners
