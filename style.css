@@ -8,7 +8,7 @@
 	--gradient: linear-gradient(45deg, #4b4e5f 10%, #13141a 100%);
 	--border: #9da1b9;
 	--text-color: #ebebeb;
-	--edit-color: #1eff00;
+	--edit-color: #18cc00;
 }
 
 * {
@@ -24,6 +24,7 @@ body, html {
 	background: var(--background);
 	-webkit-font-smoothing: antialiased; /* For WebKit-based browsers */
   -moz-osx-font-smoothing: grayscale; /* For Firefox on macOS */
+	text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.404);
 }
 
 #overlay {
@@ -585,11 +586,19 @@ form.name-group {
 		background-color: var(--primary);
 		border-radius: 5px;
 		padding: 10px;
+		transition: all 0.2s ease-in-out;
+		cursor: pointer;
+
+		&:hover {
+			background-color: color-mix(in srgb, var(--primary) 80%, white 20%);
+			scale: 1.01;
+		}
 
 		& svg:first-of-type {
 			width: 35px;
 			height: 35px;
 			margin-right: 10px;
+			filter:drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.849));
 		}
 
 		& p {
@@ -598,9 +607,17 @@ form.name-group {
 			margin-top: 2px;
 		}
 
-		& .addToCard {
+		& svg:last-of-type {
 			position: absolute;
 			right: 10px;
+			border-radius: 5px;
+			border-color: transparent;
+			transition: all 0.2s ease-in-out;
+
+			&:hover {
+				background-color: color-mix(in srgb, var(--edit-color) 80%, transparent 20%);
+				transform: scale(1.2);
+			}
 		}
 	}
 }
