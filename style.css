@@ -506,6 +506,105 @@ form.name-group {
 	}
 }
 
+
+/* Popups */
+
+.popup {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	translate: -50% -50%;
+	z-index: 10;
+	width: 30%;
+	height: 60%;
+	border: 1px solid var(--border);
+	border-radius: 5px;
+	background: var(--background);
+	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.39), 0 4px 6px rgba(0, 0, 0, 0.158);
+
+
+	& .popup-topbar {
+		position: relative;
+		display: flex;
+		align-items: center;
+		width: 100%;
+		height: 14%;
+		padding: 15px;
+		border-bottom: 1px solid var(--border);
+	}
+
+	& .close {
+		position: absolute;
+		right: 15px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 25px;
+		height: 25px;
+		font-size: x-large;
+		cursor: pointer;
+		border-radius: 5px;
+		background-color: transparent;
+		border: none;
+		transition: all 0.2s ease-in-out;
+
+		&:hover {
+			background-color: var(--accent);
+		}
+
+		&:active {
+			scale: 1.1;
+		}
+	}
+
+	& hr {
+		width: 100%;
+		height: 1px;
+		border: 0;
+		background: var(--border);
+	}
+
+	& .options-wrap {
+		display: flex;
+		flex-direction: column;
+		align-self: center;
+		justify-content: start;
+		gap: 15px;
+		height: 86%;
+		width: 100%;
+		padding: 15px;
+		overflow-y: auto;
+	}
+
+	& .option {
+		position: relative;
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		list-style-type: none;
+		background-color: var(--primary);
+		border-radius: 5px;
+		padding: 10px;
+
+		& svg:first-of-type {
+			width: 35px;
+			height: 35px;
+			margin-right: 10px;
+		}
+
+		& p {
+			font-size: 0.7em;
+			width: 90%;
+			margin-top: 2px;
+		}
+
+		& .addToCard {
+			position: absolute;
+			right: 10px;
+		}
+	}
+}
+
 @media screen and (max-width: 700px) {
 	main {
 		grid-template-columns: 1fr;
