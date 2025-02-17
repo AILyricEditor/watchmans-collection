@@ -109,6 +109,11 @@ class Popup {
 		console.log("closed");
 		this.self.style.display = "none";
 	}
+
+	open() {
+		console.log("opened");
+		this.self.style.display = "block";
+	}
 }
 
 let popups = [];
