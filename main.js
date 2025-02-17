@@ -95,6 +95,22 @@ function toggleOverlay() {
 }
 
 
+class Popup {
+	constructor(options) {
+		this.options = options;
+		this.index = document.querySelectorAll(".popup").length - 1;
+	}
+
+	get self() {
+		return document.querySelectorAll(".popup")[this.index];
+	}
+
+	close() {
+		console.log("closed");
+	}
+}
+
+
 
 // Event Listeners
 document.addEventListener("DOMContentLoaded", () => {
