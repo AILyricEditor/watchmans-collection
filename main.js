@@ -96,9 +96,9 @@ function toggleOverlay() {
 
 
 class Popup {
-	constructor(options) {
-		this.options = options;
-		this.index = document.querySelectorAll(".popup").length - 1;
+	constructor(index) {
+		// this.options = options;
+		this.index = index;
 	}
 
 	get self() {
@@ -107,8 +107,17 @@ class Popup {
 
 	close() {
 		console.log("closed");
+		this.self.style.display = "none";
 	}
 }
+
+let popups = [];
+
+document.querySelectorAll(".popup").forEach((popup, index) => {
+	popups.push(new Popup(index));
+});
+
+console.log(popups);
 
 
 
@@ -170,6 +179,18 @@ document.addEventListener("DOMContentLoaded", () => {
 				};
 				reader.readAsDataURL(file);
 			}
+		}
+	});	
+
+	// Popups
+	document.addEventListener("click", (e) => {
+		const popup = e.target.closest(".popup");
+		const popupIndex = Array.from(document.querySelectorAll(".popup")).indexOf(popup);
+		if (!popup) return;
+
+		// const closePopup = popup.querySelector(".close");
+		if (e.target.matches(".close")) {
+			popups[popupIndex].close();
 		}
 	});
 });
