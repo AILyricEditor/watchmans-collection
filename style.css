@@ -658,8 +658,8 @@ form.name-group {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	width: 100px;
-	height: 100px;
+	width: 20%;
+	height: 20%;
 	border: 2px solid var(--background);
 	border-radius: 50%;
 	background: var(--edit-color);
@@ -686,5 +686,10 @@ form.name-group {
 		width: 95%;
 		height: auto;
 		max-height: 80%;
+	}
+
+	.tool-wheel {
+		width: 400px;
+		height: 400px;
 	}
 }
