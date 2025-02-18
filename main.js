@@ -28,12 +28,14 @@ class Card {
 	close() {
 		this.self.classList.remove("expanded");
 		this.self.classList.remove("editMode");
+		document.querySelector(".tool-wheel").classList.remove("editMode");
 		toggleOverlay();
 		update();
 	}
 
 	toggleEdit() {
 		this.self.classList.toggle("editMode");
+		document.querySelector(".tool-wheel").classList.toggle("editMode");
 	}
 
 	autoFontSize() {	
@@ -144,6 +146,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const xButton = e.target.closest(".xButton");
     if (xButton && card.contains(xButton)) {
         card.classList.remove("expanded", "editMode");
+				document.querySelector(".tool-wheel").classList.remove("editMode");
         toggleOverlay();
         return;
     }
@@ -151,6 +154,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const editButton = e.target.closest(".edit-button");
     if (editButton && card.contains(editButton)) {
         card.classList.toggle("editMode");
+				document.querySelector(".tool-wheel").classList.toggle("editMode");
         return;
     }
 

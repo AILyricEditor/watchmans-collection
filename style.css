@@ -130,6 +130,10 @@ main {
 	& .name label {
 		display: block;
 	}
+
+	&.tool-wheel {
+		translate: 50% 50%;
+	}
 }
 
 .card.expanded {
@@ -637,19 +641,20 @@ form.name-group {
 	z-index: 10;
 	bottom: 0;
 	right: 0;
-	translate: 50% 50%;
+	translate: 100% 100%;
 	background: var(--primary);
 	opacity: 0.8;
 	border-radius: 50%;
 	border: 2px solid var(--border);
 	width: 500px;
 	height: 500px;
+	transition: all 0.2s ease-in-out;
 }
 
 .addElement {
-	position: fixed;
-	bottom: 15px;
-	right: 15px;
+	position: absolute;
+	top: 25%;
+	left: 25%;
 	display: flex;
 	align-items: center;
 	justify-content: center;
