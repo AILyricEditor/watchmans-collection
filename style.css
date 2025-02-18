@@ -599,7 +599,12 @@ form.name-group {
 			width: 35px;
 			height: 35px;
 			margin-right: 10px;
-			filter:drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.849));
+			background: var(--primary);
+			border-radius: 5px;
+			padding: 5px;
+			filter:drop-shadow(2px 2px 5px rgba(0, 0, 0, 0.911)) drop-shadow(-2px -2px 5px rgba(255, 255, 255, 0.377));
+			/* fill: var(--background); */
+			/* border: 1px solid var(--border); */
 		}
 
 		& p {
