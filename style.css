@@ -96,7 +96,7 @@ main {
 	border: 2px solid var(--accent);
 	border-radius: 5px;
 	padding: 20% 12%;
-	transition: opacity 0.3s, transform 0.3s, scale 500ms ease;
+	transition: opacity 0.3s, transform 0.3s, scale 500ms, color 0.3s, border-color 0.3s ease-in-out;
 
 	&:hover {
 		transform: scale(1.03);
@@ -123,8 +123,13 @@ main {
 		}
 	}
 
+	& .input-group.main .preview-wrap img, .input-group.face.active {
+		border: 1px solid var(--edit-color);
+	}
+
 	& .delete-card {
-		display: flex;
+		opacity: 1;
+		visibility: visible;
 	}
 
 	& .name label {
@@ -234,7 +239,9 @@ main {
 }
 
 .delete-card {
-	display: none;
+	visibility: hidden;
+	opacity: 0;
+	display: flex;
 	position: absolute;
 	left: 30px;
 	width: 100px;
@@ -281,6 +288,10 @@ main {
 	border: 1px solid var(--border);
 	border-radius: 5px;
 	text-align: center;
+
+	& * {
+		transition: all 0.2s ease-in-out;
+	}
 
 	& svg {
 		align-self: center;
@@ -531,6 +542,7 @@ form.name-group {
 	border-radius: 5px;
 	background: var(--background);
 	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.39), 0 4px 6px rgba(0, 0, 0, 0.158);
+	transition: all 0.2s ease-in-out;
 
 
 	& .popup-topbar {
@@ -642,10 +654,8 @@ form.name-group {
 	bottom: 0;
 	right: 0;
 	translate: 100% 100%;
-	/* background: var(--primary); */
 	background: rgba(255, 255, 255, 0.123);
 	backdrop-filter: blur(10px);
-	/* opacity: 0.8; */
 	border-radius: 50%;
 	border: 2px solid var(--border);
 	width: 500px;
@@ -654,7 +664,6 @@ form.name-group {
 
 	&:hover {
 		scale: 1.05;
-		/* opacity: 1; */
 		background: rgba(255, 255, 255, 0.185);
 	}
 

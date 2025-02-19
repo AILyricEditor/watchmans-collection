@@ -109,12 +109,12 @@ class Popup {
 
 	close() {
 		console.log("closed");
-		this.self.style.display = "none";
+		this.self.style.scale = 0;
 	}
 
 	open() {
 		console.log("opened");
-		this.self.style.display = "block";
+		this.self.style.scale = 1;
 	}
 }
 
@@ -194,12 +194,19 @@ document.addEventListener("DOMContentLoaded", () => {
 	// Popups
 	document.addEventListener("click", (e) => {
 		const popup = e.target.closest(".popup");
+		const toolWheel = e.target.closest(".tool-wheel");
+		const addElement = e.target.closest(".addElement");
 		const popupIndex = Array.from(document.querySelectorAll(".popup")).indexOf(popup);
-		if (!popup) return;
+		// if (!popup && !toolWheel) return;
 
 		// const closePopup = popup.querySelector(".close");
 		if (e.target.matches(".close")) {
 			popups[popupIndex].close();
+		}
+
+		if (addElement) {
+			console.log("Opened");
+			document.querySelector(".elements-popup").style.scale = 1;;
 		}
 	});
 });
