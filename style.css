@@ -642,33 +642,53 @@ form.name-group {
 	bottom: 0;
 	right: 0;
 	translate: 100% 100%;
-	background: var(--primary);
-	opacity: 0.8;
+	/* background: var(--primary); */
+	background: rgba(255, 255, 255, 0.123);
+	backdrop-filter: blur(10px);
+	/* opacity: 0.8; */
 	border-radius: 50%;
 	border: 2px solid var(--border);
 	width: 500px;
 	height: 500px;
 	transition: all 0.2s ease-in-out;
-}
 
-.addElement {
-	position: absolute;
-	top: 25%;
-	left: 25%;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	width: 20%;
-	height: 20%;
-	border: 2px solid var(--background);
-	border-radius: 50%;
-	background: var(--edit-color);
-	padding: 5px;
-	z-index: 10;
+	&:hover {
+		scale: 1.05;
+		/* opacity: 1; */
+		background: rgba(255, 255, 255, 0.185);
+	}
 
-	& svg {
-		width: 100%;
-		height: 100%;
+	& .addElement {
+		position: absolute;
+		top: 25%;
+		left: 25%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 20%;
+		height: 20%;
+		border: 2px solid var(--background);
+		border-radius: 50%;
+		background: var(--edit-color);
+		padding: 5px;
+		z-index: 10;
+		transition: all 0.15s ease-in-out;
+
+		&:hover {
+			scale: 1.1;
+			background-color: color-mix(in srgb, var(--edit-color) 70%, #ffffff 30%);
+		}
+
+		&:active {
+			scale: 1.1;
+			background-color: color-mix(in srgb, var(--edit-color) 90%, #000000 10%);
+			scale: 1.2;
+		}
+	
+		& svg {
+			width: 100%;
+			height: 100%;
+		}
 	}
 }
 
