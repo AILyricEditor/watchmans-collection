@@ -14,7 +14,6 @@ class Card {
 
 	update() {
 		if (!this.self) return;
-		this.autoNameLength();
 		this.autoFontSize();
 	}
 
@@ -22,14 +21,14 @@ class Card {
 		document.querySelectorAll(".card").forEach(el => el.classList.remove("expanded"));
 		this.self.classList.add("expanded");
 		this.autoFontSize();
-		toggleOverlay(this.self, true);
+		toggleOverlay();
 	}
 
 	close() {
 		this.self.classList.remove("expanded");
 		this.self.classList.remove("editMode");
 		document.querySelector(".tool-wheel").classList.remove("editMode");
-		toggleOverlay(this.self, false);
+		toggleOverlay();
 		update();
 	}
 
@@ -49,19 +48,6 @@ class Card {
 			let dataFontSize = input.getAttribute("data-fontsize");
 			if (!dataFontSize) dataFontSize = 1;
 			input.style.fontSize = `${this.self.offsetWidth / 25 / dataFontSize}px`;
-		});
-	}
-
-	autoNameLength() {
-		const measurers = this.self.querySelectorAll(".text-measurer");
-		this.self.querySelectorAll(".info-input").forEach((input, index) => {
-			input.addEventListener("input", adjustWidth);
-			input.addEventListener("DOMContentLoaded", adjustWidth);
-			input.addEventListener("keydown", adjustWidth);
-			function adjustWidth() {
-				measurers[index].textContent = input.value || input.placeholder; // Match text
-				input.style.width = measurers[index].offsetWidth + 5 + "px"; // Adjust width
-			}
 		});
 	}
 }
@@ -122,13 +108,13 @@ class Popup {
 	close() {
 		console.log("closed");
 		this.self.classList.remove("expanded");
-		toggleOverlay(this.self, false);
+		toggleOverlay();
 	}
 
 	open() {
 		console.log("opened");
 		this.self.classList.add("expanded");
-		toggleOverlay(this.self, true);
+		toggleOverlay();
 	}
 }
 
@@ -180,6 +166,19 @@ const elementsPopup = new Popup(".elements-popup")
 // setElements();
 
 
+// Add the class "autoInput" to input fields that you want to auto adjust width
+// Auto adjust width of input fields with the class autoInput
+const autoInput = document.querySelectorAll('.autoInput');
+
+autoInput.forEach(input => {
+	input.addEventListener('input', () => {
+		const hiddenSpan = input.closest(".nameTypeGroup").querySelector(".text-measurer");
+		hiddenSpan.textContent = input.value || input.placeholder;
+		input.style.width = hiddenSpan.offsetWidth + 20 + 'px'; // Add padding
+	});
+});
+
+
 
 // Event Listeners
 document.addEventListener("DOMContentLoaded", () => {
@@ -192,7 +191,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (expandButton && card.contains(expandButton)) {
         document.querySelectorAll(".card").forEach(el => el.classList.remove("expanded"));
         card.classList.add("expanded");
-        toggleOverlay(card, true);
+        toggleOverlay();
         return;
     }
 
@@ -200,7 +199,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (xButton && card.contains(xButton)) {
         card.classList.remove("expanded", "editMode");
 				document.querySelector(".tool-wheel").classList.remove("editMode");
-        toggleOverlay(card, false);
+        toggleOverlay();
         return;
     }
 
@@ -221,7 +220,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			const index = Array.from(document.querySelectorAll(".card")).indexOf(card) - 1;
 			cards.splice(index, 1);
 			card.remove();
-			toggleOverlay(card, false);
+			toggleOverlay();
 		}
 	});
 
