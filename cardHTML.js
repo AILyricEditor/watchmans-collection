@@ -8,8 +8,9 @@ const cardHTML = `
 			<svg class="edit-button editImage" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z"/></svg>
 			<svg class="xButton" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>
 		</div>
+
 		<!-- Main Image Input -->
-		<div class="input-group main">
+		<div class="input-group main element">
 			<!-- Main Image Preview -->
 			<div class="preview-wrap">
 				<img class="preview" alt="Blank">
@@ -22,7 +23,7 @@ const cardHTML = `
 		</div>
 
 		<!-- Face Image Input -->
-		<div class="input-group face">
+		<div class="input-group face element">
 			<!-- Face Circle Container -->
 			<div class="preview-wrap">
 				<img class="preview" alt="Blank">
@@ -34,7 +35,7 @@ const cardHTML = `
 			<input type="file" class="input-file" accept="image/*">
 		</div>
 
-		<div class="name">
+		<div class="name element">
 			<h4>Name: </h4>
 			<div class="name-group">
 				<form class="nameInput-wrap">
@@ -53,7 +54,7 @@ const cardHTML = `
 		</div>
 
 		<!-- License Plate -->
-		<div class="license-plate">
+		<div class="license-plate element">
 			<input type="text" class="input license-input" maxlength="8" value="15E28Y">
 			<img class="license-image" src="assets/Blank-License-Plate.png" alt="License Plate">
 		</div>

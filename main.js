@@ -22,14 +22,14 @@ class Card {
 		document.querySelectorAll(".card").forEach(el => el.classList.remove("expanded"));
 		this.self.classList.add("expanded");
 		this.autoFontSize();
-		toggleOverlay();
+		toggleOverlay(this.self, true);
 	}
 
 	close() {
 		this.self.classList.remove("expanded");
 		this.self.classList.remove("editMode");
 		document.querySelector(".tool-wheel").classList.remove("editMode");
-		toggleOverlay();
+		toggleOverlay(this.self, false);
 		update();
 	}
 
@@ -75,6 +75,7 @@ function addCard() {
 	const cardArea = document.getElementById("cardArea")
 	cardArea.innerHTML += cardHTML;
 	cards.push(new Card(cardCount));
+	// setElements();
 
 	update();
 }
@@ -88,43 +89,95 @@ function update() {
 // To Initialize all event listeners
 update();
 
-
-
 function toggleOverlay() {
-	const overlay = document.getElementById("overlay");
-	overlay.style.backdropFilter == "blur(10px)" ? overlay.style.backdropFilter = "none" : overlay.style.backdropFilter = "blur(10px)";
-	overlay.style.pointerEvents == "auto" ? overlay.style.pointerEvents = "none" : overlay.style.pointerEvents = "auto";
+	const overlay = document.querySelector(".overlay");
+  const popups = Array.from(document.querySelectorAll('.expanded'));
+
+  if (popups.length > 0) {
+    // Find the highest z-index among open popups
+    const highestZIndex = Math.max(
+      ...popups.map(popup => Number(window.getComputedStyle(popup).zIndex) || 0)
+    );
+
+    overlay.style.zIndex = highestZIndex;
+
+		overlay.style.backdropFilter = "blur(10px)";
+		overlay.style.pointerEvents = "auto";
+  } else {
+    overlay.style.backdropFilter = "none";
+		overlay.style.pointerEvents = "none";
+  }
 }
 
-
 class Popup {
-	constructor(index) {
+	constructor(id) {
 		// this.options = options;
-		this.index = index;
+		this.id = id;
 	}
 
 	get self() {
-		return document.querySelectorAll(".popup")[this.index];
+		return document.querySelector(this.id);
 	}
 
 	close() {
 		console.log("closed");
-		this.self.style.scale = 0;
+		this.self.classList.remove("expanded");
+		toggleOverlay(this.self, false);
 	}
 
 	open() {
 		console.log("opened");
-		this.self.style.scale = 1;
+		this.self.classList.add("expanded");
+		toggleOverlay(this.self, true);
 	}
 }
 
-let popups = [];
+const elementsPopup = new Popup(".elements-popup")
 
-document.querySelectorAll(".popup").forEach((popup, index) => {
-	popups.push(new Popup(index));
-});
+// let popups = [];
 
-console.log(popups);
+// document.querySelectorAll(".popup").forEach((popup, index) => {
+// 	popups.push(new Popup(index));
+// });
+
+// console.log(popups);
+
+// class Element {
+// 	constructor(element) {
+// 		this.self = element;
+// 		// this.index = Array.from(document.querySelectorAll(".element")).indexOf(element);
+// 	}
+
+// 	// get self() {
+// 	// 	console.log(this.index);
+// 	// 	return document.querySelectorAll(this.element)[this.index];
+// 	// }
+
+// 	remove() {
+// 		console.log("closed");
+// 		this.self.style.display = "none";
+// 	}
+
+// 	add() {
+// 		console.log("opened");
+// 		this.self.style.display = "block";
+// 	}
+// }
+
+// let elements = [];
+
+// function setElements() {
+// 	const card = Array.from(document.querySelectorAll(".card")).pop();
+// 	elements.push({
+// 		main: new Element(card.querySelector(".main")),
+// 		face: new Element(card.querySelector(".face")),
+// 		name: new Element(card.querySelector(".name")),
+// 		license: new Element(card.querySelector(".license-plate"))
+// 	});
+// 	console.log(elements);
+// }
+
+// setElements();
 
 
 
@@ -139,7 +192,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (expandButton && card.contains(expandButton)) {
         document.querySelectorAll(".card").forEach(el => el.classList.remove("expanded"));
         card.classList.add("expanded");
-        toggleOverlay();
+        toggleOverlay(card, true);
         return;
     }
 
@@ -147,7 +200,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (xButton && card.contains(xButton)) {
         card.classList.remove("expanded", "editMode");
 				document.querySelector(".tool-wheel").classList.remove("editMode");
-        toggleOverlay();
+        toggleOverlay(card, false);
         return;
     }
 
@@ -168,7 +221,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			const index = Array.from(document.querySelectorAll(".card")).indexOf(card) - 1;
 			cards.splice(index, 1);
 			card.remove();
-			toggleOverlay();
+			toggleOverlay(card, false);
 		}
 	});
 
@@ -201,12 +254,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
 		// const closePopup = popup.querySelector(".close");
 		if (e.target.matches(".close")) {
-			popups[popupIndex].close();
+			elementsPopup.close();
+		}
+
+		if (e.target.matches(".addToCard")) {
+			let option = e.target.closest(".option").getAttribute("data-option");
+			document.querySelector(".expanded").querySelector(`.${option}`).style.display = "flex";
+			// let expanded = document.querySelector(".expanded");
+			// let index = Array.from(document.querySelectorAll(".card")).indexOf(expanded);
+			// elements[index - 1][option].remove();
+			// console.log(index);
+			// console.log(elements[index - 1][option]);
 		}
 
 		if (addElement) {
 			console.log("Opened");
-			document.querySelector(".elements-popup").style.scale = 1;;
+			elementsPopup.open();
 		}
 	});
 });

@@ -31,7 +31,7 @@ body, html {
 	}
 }
 
-#overlay {
+.overlay {
 	/* display: none; */
 	backdrop-filter: blur(0px);
 	pointer-events: none;
@@ -39,8 +39,12 @@ body, html {
 	width: 100%;
 	height: 100%;
 	position:fixed;
-	z-index: 2;
+	/* z-index: 2; */
 }
+
+/* .overlay2 {
+	z-index: 4;
+} */
 
 main {
 	width: 100%;
@@ -106,7 +110,7 @@ main {
 
 .editMode {
 	border: 2px solid var(--edit-color);
-
+	
 	& .cardCount {
 		color: var(--edit-color);
 	}
@@ -139,6 +143,11 @@ main {
 	&.tool-wheel {
 		translate: 50% 50%;
 	}
+}
+
+.popup.expanded {
+	scale: 1;
+	opacity: 1;
 }
 
 .card.expanded {
@@ -530,11 +539,13 @@ form.name-group {
 /* Popups */
 
 .popup {
+	scale: 0;
+	opacity: 0;
 	position: fixed;
 	top: 50%;
 	left: 50%;
 	translate: -50% -50%;
-	z-index: 10;
+	z-index: 4;
 	width: 40%;
 	min-width: 300px;
 	height: 60%;
