@@ -14,13 +14,12 @@ class Card {
 
 	update() {
 		if (!this.self) return;
-		this.autoFontSize();
 	}
 
 	expand() {
 		document.querySelectorAll(".card").forEach(el => el.classList.remove("expanded"));
 		this.self.classList.add("expanded");
-		this.autoFontSize();
+		adjustFontSize()
 		toggleOverlay();
 	}
 
@@ -29,26 +28,13 @@ class Card {
 		this.self.classList.remove("editMode");
 		document.querySelector(".tool-wheel").classList.remove("editMode");
 		toggleOverlay();
+		adjustFontSize();
 		update();
 	}
 
 	toggleEdit() {
 		this.self.classList.toggle("editMode");
 		document.querySelector(".tool-wheel").classList.toggle("editMode");
-	}
-
-	autoFontSize() {	
-		const licenseInput = this.self.querySelector('.license-input');
-		
-		licenseInput.style.fontSize = `${this.self.offsetWidth / 8}px`;
-	
-		const inputInfo = this.self.querySelectorAll(".input-info");
-
-		inputInfo.forEach(input => {
-			let dataFontSize = input.getAttribute("data-fontsize");
-			if (!dataFontSize) dataFontSize = 1;
-			input.style.fontSize = `${this.self.offsetWidth / 25 / dataFontSize}px`;
-		});
 	}
 }
 
@@ -62,6 +48,7 @@ function addCard() {
 	cardArea.innerHTML += cardHTML;
 	cards.push(new Card(cardCount));
 	// setElements();
+	adjustFontSize();
 
 	update();
 }
@@ -168,15 +155,6 @@ const elementsPopup = new Popup(".elements-popup")
 
 // Add the class "autoInput" to input fields that you want to auto adjust width
 // Auto adjust width of input fields with the class autoInput
-const autoInput = document.querySelectorAll('.autoInput');
-
-autoInput.forEach(input => {
-	input.addEventListener('input', () => {
-		const hiddenSpan = input.closest(".nameTypeGroup").querySelector(".text-measurer");
-		hiddenSpan.textContent = input.value || input.placeholder;
-		input.style.width = hiddenSpan.offsetWidth + 20 + 'px'; // Add padding
-	});
-});
 
 
 
@@ -243,6 +221,19 @@ document.addEventListener("DOMContentLoaded", () => {
 		}
 	});	
 
+	document.addEventListener("input", function (e) {
+		const autoInput = document.querySelectorAll('.autoInput');
+		if (e.target.matches(".autoInput")) {
+			autoInput.forEach(input => {
+				input.addEventListener('input', () => {
+					const hiddenSpan = input.closest(".nameTypeGroup").querySelector(".text-measurer");
+					hiddenSpan.textContent = input.value || input.placeholder;
+					input.style.width = hiddenSpan.offsetWidth + 20 + 'px'; // Add padding
+				});
+			});
+		}
+	});
+
 	// Popups
 	document.addEventListener("click", (e) => {
 		const popup = e.target.closest(".popup");
@@ -272,3 +263,13 @@ document.addEventListener("DOMContentLoaded", () => {
 		}
 	});
 });
+
+function adjustFontSize() {
+	document.querySelectorAll(".card").forEach(card => {
+		card.style.fontSize = `${card.offsetWidth / 400}em`;
+	});
+}
+
+window.addEventListener('resize', () => { adjustFontSize() });
+
+adjustFontSize();
