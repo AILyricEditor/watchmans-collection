@@ -158,10 +158,9 @@ main {
 	box-shadow: 0px 0px 50px rgba(0, 0, 0, 0.863);
 	padding: 60px 50px;
 	overflow-y: auto;
-	font-size: 2em !important;
 
 	& .input-group.main {
-		min-height: 500px;
+		min-height: 8em;
 	}
 
 	& .expand {
@@ -222,7 +221,7 @@ main {
 	position: absolute;
 	top: 10px;
 	left: 10px;
-	font-size: 2em;
+	font-size: 1.7em;
 	font-weight: bold;
 	color: var(--accent);
 }
@@ -392,7 +391,7 @@ main {
 .input-group.main {
 	width: 100%;
 	height: auto;
-	min-height: 50%;
+	min-height: 8em;
 	align-self: center;
 
 	& img {
@@ -450,7 +449,7 @@ main {
 
 	& input {
 		font-size: 1.5em;
-		width: 60px; /* Initial width */
+		width: 2.6em; /* Initial width */
 	}
 }
 

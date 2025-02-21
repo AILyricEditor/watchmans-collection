@@ -19,7 +19,7 @@ class Card {
 	expand() {
 		document.querySelectorAll(".card").forEach(el => el.classList.remove("expanded"));
 		this.self.classList.add("expanded");
-		adjustFontSize()
+		adjustFontSize();
 		toggleOverlay();
 	}
 
@@ -170,6 +170,7 @@ document.addEventListener("DOMContentLoaded", () => {
         document.querySelectorAll(".card").forEach(el => el.classList.remove("expanded"));
         card.classList.add("expanded");
         toggleOverlay();
+				adjustFontSize();
         return;
     }
 
@@ -178,6 +179,7 @@ document.addEventListener("DOMContentLoaded", () => {
         card.classList.remove("expanded", "editMode");
 				document.querySelector(".tool-wheel").classList.remove("editMode");
         toggleOverlay();
+				adjustFontSize();
         return;
     }
 
@@ -266,10 +268,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function adjustFontSize() {
 	document.querySelectorAll(".card").forEach(card => {
+		// let multiplier = 1;
+		// if (card.classList.contains("expanded")) {
+		// 	console.log("I have expanded class");
+		// 	multiplier = 1;
+		// }
 		card.style.fontSize = `${card.offsetWidth / 400}em`;
 	});
 }
 
 window.addEventListener('resize', () => { adjustFontSize() });
+window.addEventListener('load', () => { adjustFontSize() });
+window.addEventListener('DOMContentLoaded', () => { adjustFontSize() });
 
 adjustFontSize();
