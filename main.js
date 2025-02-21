@@ -228,9 +228,9 @@ document.addEventListener("DOMContentLoaded", () => {
 		if (e.target.matches(".autoInput")) {
 			autoInput.forEach(input => {
 				input.addEventListener('input', () => {
-					const hiddenSpan = input.closest(".nameTypeGroup").querySelector(".text-measurer");
+					const hiddenSpan = input.parentElement.querySelector(".text-measurer");
 					hiddenSpan.textContent = input.value || input.placeholder;
-					input.style.width = hiddenSpan.offsetWidth + 20 + 'px'; // Add padding
+					input.style.width = hiddenSpan.offsetWidth + 10 + 'px'; // Add padding
 				});
 			});
 		}

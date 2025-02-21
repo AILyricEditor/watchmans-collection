@@ -440,31 +440,28 @@ main {
 
 
 .name {
-	/* overflow: hidden; */
+  display: grid;
+  grid-template-rows: auto;
+  
+  & h4 {
+    grid-row: 1;
+  }
+
 	& label {
 		display: none;
-		/* margin-top: 2em; */
+    grid-row: 2;
 		font-size: 0.8em;
 	}
 
 	& input {
+    grid-row: 3;
 		font-size: 1.5em;
-		width: 2.6em; /* Initial width */
+		width: 2.6em;
 	}
 }
 
-.nameTypeGroup {
-	display: flex;
-	flex-direction: column;
-}
-
-form.name-group {
-	display: flex;
-	align-items: start;
-	flex-direction: row;
-}
-
 .input {
+  overflow: visible;
 	background: none;
 	border: none;
 	outline: none;
@@ -477,16 +474,6 @@ form.name-group {
   white-space: pre;
   font: inherit; /* Ensure font matches input */
 	font-size: 1.5em;
-}
-
-.nameInput-wrap {
-	display: flex;
-	align-items: center;
-	justify-content: start;
-	flex-direction: row;
-	gap: 5px;
-	width: 100%;
-	margin-top: 10px;
 }
 
 
