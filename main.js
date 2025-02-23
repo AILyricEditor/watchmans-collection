@@ -1,7 +1,6 @@
 class Card {
 	constructor(index) {
 		this.index = index;
-		this.update();
 	}
 
 	get self() {
@@ -10,10 +9,6 @@ class Card {
 
 	get innerHTML() {
 		return this.self.innerHTML;
-	}
-
-	update() {
-		if (!this.self) return;
 	}
 
 	expand() {
@@ -47,19 +42,16 @@ function addCard() {
 	const cardArea = document.getElementById("cardArea")
 	cardArea.innerHTML += cardHTML;
 	cards.push(new Card(cardCount));
-	// setElements();
-	adjustFontSize();
-
 	update();
 }
 
 function update() {
 	// Update font sizes
-	window.addEventListener('resize', () => { update() }, {once: true});
-	cards.forEach((card, index) => { card.update(); });
+	adjustFontSize();
 }
 
 // To Initialize all event listeners
+window.addEventListener('resize', () => { update() });
 update();
 
 function toggleOverlay() {
@@ -84,7 +76,6 @@ function toggleOverlay() {
 
 class Popup {
 	constructor(id) {
-		// this.options = options;
 		this.id = id;
 	}
 
@@ -105,58 +96,7 @@ class Popup {
 	}
 }
 
-const elementsPopup = new Popup(".elements-popup")
-
-// let popups = [];
-
-// document.querySelectorAll(".popup").forEach((popup, index) => {
-// 	popups.push(new Popup(index));
-// });
-
-// console.log(popups);
-
-// class Element {
-// 	constructor(element) {
-// 		this.self = element;
-// 		// this.index = Array.from(document.querySelectorAll(".element")).indexOf(element);
-// 	}
-
-// 	// get self() {
-// 	// 	console.log(this.index);
-// 	// 	return document.querySelectorAll(this.element)[this.index];
-// 	// }
-
-// 	remove() {
-// 		console.log("closed");
-// 		this.self.style.display = "none";
-// 	}
-
-// 	add() {
-// 		console.log("opened");
-// 		this.self.style.display = "block";
-// 	}
-// }
-
-// let elements = [];
-
-// function setElements() {
-// 	const card = Array.from(document.querySelectorAll(".card")).pop();
-// 	elements.push({
-// 		main: new Element(card.querySelector(".main")),
-// 		face: new Element(card.querySelector(".face")),
-// 		name: new Element(card.querySelector(".name")),
-// 		license: new Element(card.querySelector(".license-plate"))
-// 	});
-// 	console.log(elements);
-// }
-
-// setElements();
-
-
-// Add the class "autoInput" to input fields that you want to auto adjust width
-// Auto adjust width of input fields with the class autoInput
-
-
+const elementsPopup = new Popup(".elements-popup");
 
 // Event Listeners
 document.addEventListener("DOMContentLoaded", () => {
@@ -167,27 +107,27 @@ document.addEventListener("DOMContentLoaded", () => {
 
 		const expandButton = e.target.closest(".expand");
     if (expandButton && card.contains(expandButton)) {
-        document.querySelectorAll(".card").forEach(el => el.classList.remove("expanded"));
-        card.classList.add("expanded");
-        toggleOverlay();
-				adjustFontSize();
-        return;
+			document.querySelectorAll(".card").forEach(el => el.classList.remove("expanded"));
+			card.classList.add("expanded");
+			toggleOverlay();
+			adjustFontSize();
+			return;
     }
 
     const xButton = e.target.closest(".xButton");
     if (xButton && card.contains(xButton)) {
-        card.classList.remove("expanded", "editMode");
-				document.querySelector(".tool-wheel").classList.remove("editMode");
-        toggleOverlay();
-				adjustFontSize();
-        return;
+			card.classList.remove("expanded", "editMode");
+			document.querySelector(".tool-wheel").classList.remove("editMode");
+			toggleOverlay();
+			adjustFontSize();
+			return;
     }
 
     const editButton = e.target.closest(".edit-button");
     if (editButton && card.contains(editButton)) {
-        card.classList.toggle("editMode");
-				document.querySelector(".tool-wheel").classList.toggle("editMode");
-        return;
+			card.classList.toggle("editMode");
+			document.querySelector(".tool-wheel").classList.toggle("editMode");
+			return;
     }
 
 		const editImage = e.target.closest(".editImage");
@@ -238,13 +178,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
 	// Popups
 	document.addEventListener("click", (e) => {
-		const popup = e.target.closest(".popup");
-		const toolWheel = e.target.closest(".tool-wheel");
 		const addElement = e.target.closest(".addElement");
-		const popupIndex = Array.from(document.querySelectorAll(".popup")).indexOf(popup);
-		// if (!popup && !toolWheel) return;
 
-		// const closePopup = popup.querySelector(".close");
 		if (e.target.matches(".close")) {
 			elementsPopup.close();
 		}
@@ -252,11 +187,6 @@ document.addEventListener("DOMContentLoaded", () => {
 		if (e.target.matches(".addToCard")) {
 			let option = e.target.closest(".option").getAttribute("data-option");
 			document.querySelector(".expanded").querySelector(`.${option}`).style.display = "flex";
-			// let expanded = document.querySelector(".expanded");
-			// let index = Array.from(document.querySelectorAll(".card")).indexOf(expanded);
-			// elements[index - 1][option].remove();
-			// console.log(index);
-			// console.log(elements[index - 1][option]);
 		}
 
 		if (addElement) {
@@ -268,17 +198,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function adjustFontSize() {
 	document.querySelectorAll(".card").forEach(card => {
-		// let multiplier = 1;
-		// if (card.classList.contains("expanded")) {
-		// 	console.log("I have expanded class");
-		// 	multiplier = 1;
-		// }
 		card.style.fontSize = `${card.offsetWidth / 400}em`;
 	});
 }
-
-window.addEventListener('resize', () => { adjustFontSize() });
-window.addEventListener('load', () => { adjustFontSize() });
-window.addEventListener('DOMContentLoaded', () => { adjustFontSize() });
-
-adjustFontSize();

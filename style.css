@@ -442,6 +442,7 @@ main {
 .name {
   display: grid;
   grid-template-rows: auto;
+	width: auto;
   
   & h4 {
     grid-row: 1;
