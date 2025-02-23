@@ -388,7 +388,8 @@ main {
 }
 
 /* Main styling */
-.input-group.main {
+.main {
+	display: none;
 	width: 100%;
 	height: auto;
 	min-height: 8em;
@@ -403,7 +404,8 @@ main {
 
 
 /* Face styling */
-.input-group.face {
+.face {
+	display: none;
 	width: 20%;
 	aspect-ratio: 1 / 1;
 	border-radius: 999px;
@@ -440,7 +442,8 @@ main {
 
 
 .name {
-  display: grid;
+	display: none;
+  /* display: grid; */
   grid-template-rows: auto;
 	width: auto;
   
@@ -481,7 +484,8 @@ main {
 
 .license-plate {
 	width: 60%;
-	display: flex;
+	/* display: flex; */
+	display: none;
 	align-items: center;
 	justify-content: center;
 	/* overflow: hidden; */

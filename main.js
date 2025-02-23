@@ -164,6 +164,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	});	
 
 	document.addEventListener("input", function (e) {
+		e.stopPropagation();
 		const autoInput = document.querySelectorAll('.autoInput');
 		if (e.target.matches(".autoInput")) {
 			autoInput.forEach(input => {
@@ -178,6 +179,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 	// Popups
 	document.addEventListener("click", (e) => {
+		e.stopPropagation();
 		const addElement = e.target.closest(".addElement");
 
 		if (e.target.matches(".close")) {
@@ -185,8 +187,11 @@ document.addEventListener("DOMContentLoaded", () => {
 		}
 
 		if (e.target.matches(".addToCard")) {
-			let option = e.target.closest(".option").getAttribute("data-option");
-			document.querySelector(".expanded").querySelector(`.${option}`).style.display = "flex";
+			e.stopPropagation();
+			let optionIndex = Array.from(e.target.closest(".expanded").querySelectorAll(".option")).indexOf(e.target.closest(".option"));
+			e.target.closest(".option").style.display = "none";
+			document.querySelectorAll(".expanded .element")[optionIndex].style.display = "flex";
+			elementsPopup.close();
 		}
 
 		if (addElement) {
