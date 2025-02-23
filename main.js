@@ -179,7 +179,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 	// Popups
 	document.addEventListener("click", (e) => {
-		e.stopPropagation();
 		const addElement = e.target.closest(".addElement");
 
 		if (e.target.matches(".close")) {
@@ -187,15 +186,22 @@ document.addEventListener("DOMContentLoaded", () => {
 		}
 
 		if (e.target.matches(".addToCard")) {
-			e.stopPropagation();
 			let optionIndex = Array.from(e.target.closest(".expanded").querySelectorAll(".option")).indexOf(e.target.closest(".option"));
+			if (optionIndex === -1) return;
 			e.target.closest(".option").style.display = "none";
-			document.querySelectorAll(".expanded .element")[optionIndex].style.display = "flex";
+			document.querySelectorAll(".expanded .element")[optionIndex].classList.toggle("hidden");
 			elementsPopup.close();
 		}
 
 		if (addElement) {
 			console.log("Opened");
+			document.querySelectorAll(".elements-popup .option").forEach((option, index) => {
+				if (document.querySelectorAll(".expanded .element") && document.querySelectorAll(".expanded .element")[index].classList.contains("hidden")) {
+					option.style.display = "flex";
+				} else {
+					option.style.display = "none";
+				}
+			});
 			elementsPopup.open();
 		}
 	});
