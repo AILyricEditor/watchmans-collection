@@ -1,15 +1,18 @@
 let cardCount = 1;
 
 const cardHTML = `
-	<section class="card">
-		<h1 class="cardCount">${cardCount}</h1>
+	<section class="card blankify">
+		<h3 class="no-content-message">There are no elements here to add elements click edit</h3>
+		
+		<h1 class="cardCount">1</h1>
 		<svg class="expand" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M200-200v-240h80v160h160v80H200Zm480-320v-160H520v-80h240v240h-80Z"/></svg>
 		<div class="cardTools">
 			<svg class="edit-button editImage" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z"/></svg>
 			<svg class="xButton" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>
 		</div>
+
 		<!-- Main Image Input -->
-		<div class="input-group main">
+		<div class="input-group main element hidden blankify-element">
 			<!-- Main Image Preview -->
 			<div class="preview-wrap">
 				<img class="preview" alt="Blank">
@@ -22,7 +25,7 @@ const cardHTML = `
 		</div>
 
 		<!-- Face Image Input -->
-		<div class="input-group face">
+		<div class="input-group face element hidden blankify-element">
 			<!-- Face Circle Container -->
 			<div class="preview-wrap">
 				<img class="preview" alt="Blank">
@@ -34,26 +37,18 @@ const cardHTML = `
 			<input type="file" class="input-file" accept="image/*">
 		</div>
 
-		<div class="name">
+		<div class="name element hidden blankify-element">
 			<h4>Name: </h4>
-			<div class="name-group">
-				<form class="nameInput-wrap">
-					<div class="nameTypeGroup">
-						<label for="name">First</label>
-						<input type="text" class="input info-input" id="name" maxlength="15" name="name" value="John">
-						<span class="text-measurer"></span>
-					</div>
-					<div class="nameTypeGroup">
-						<label class="nameType" for="last">Last</label>
-						<input type="text" class="input info-input" id="last" maxlength="15" value="Doe">
-						<span class="text-measurer"></span>
-					</div>
-				</form>
-			</div>
+			<label for="name">First</label>
+			<input type="text" class="input info-input autoInput" id="name" maxlength="15" name="name" value="John">
+			<span class="text-measurer"></span>
+			<label class="nameType" for="last">Last</label>
+			<input type="text" class="input info-input autoInput" id="last" maxlength="15" value="Doe">
+			<span class="text-measurer"></span>
 		</div>
 
 		<!-- License Plate -->
-		<div class="license-plate">
+		<div class="license-plate element hidden blankify-element">
 			<input type="text" class="input license-input" maxlength="8" value="15E28Y">
 			<img class="license-image" src="assets/Blank-License-Plate.png" alt="License Plate">
 		</div>

@@ -1,7 +1,6 @@
 class Card {
 	constructor(index) {
 		this.index = index;
-		this.update();
 	}
 
 	get self() {
@@ -12,55 +11,25 @@ class Card {
 		return this.self.innerHTML;
 	}
 
-	update() {
-		if (!this.self) return;
-		this.autoNameLength();
-		this.autoFontSize();
-	}
-
 	expand() {
 		document.querySelectorAll(".card").forEach(el => el.classList.remove("expanded"));
 		this.self.classList.add("expanded");
-		this.autoFontSize();
+		adjustFontSize();
 		toggleOverlay();
 	}
 
 	close() {
 		this.self.classList.remove("expanded");
 		this.self.classList.remove("editMode");
+		document.querySelector(".tool-wheel").classList.remove("editMode");
 		toggleOverlay();
+		adjustFontSize();
 		update();
 	}
 
 	toggleEdit() {
 		this.self.classList.toggle("editMode");
-	}
-
-	autoFontSize() {	
-		const licenseInput = this.self.querySelector('.license-input');
-		
-		licenseInput.style.fontSize = `${this.self.offsetWidth / 8}px`;
-	
-		const inputInfo = this.self.querySelectorAll(".input-info");
-
-		inputInfo.forEach(input => {
-			let dataFontSize = input.getAttribute("data-fontsize");
-			if (!dataFontSize) dataFontSize = 1;
-			input.style.fontSize = `${this.self.offsetWidth / 25 / dataFontSize}px`;
-		});
-	}
-
-	autoNameLength() {
-		const measurers = this.self.querySelectorAll(".text-measurer");
-		this.self.querySelectorAll(".info-input").forEach((input, index) => {
-			input.addEventListener("input", adjustWidth);
-			input.addEventListener("DOMContentLoaded", adjustWidth);
-			input.addEventListener("keydown", adjustWidth);
-			function adjustWidth() {
-				measurers[index].textContent = input.value || input.placeholder; // Match text
-				input.style.width = measurers[index].offsetWidth + 5 + "px"; // Adjust width
-			}
-		});
+		document.querySelector(".tool-wheel").classList.toggle("editMode");
 	}
 }
 
@@ -73,28 +42,79 @@ function addCard() {
 	const cardArea = document.getElementById("cardArea")
 	cardArea.innerHTML += cardHTML;
 	cards.push(new Card(cardCount));
-
 	update();
 }
 
 function update() {
 	// Update font sizes
-	window.addEventListener('resize', () => { update() }, {once: true});
-	cards.forEach((card, index) => { card.update(); });
+	adjustFontSize();
 }
 
 // To Initialize all event listeners
+window.addEventListener('resize', () => { update() });
 update();
 
+// Mutation Observer
+const observer = new MutationObserver(() => {
+	document.querySelectorAll(".blankify").forEach(blank => {
+		const elementCount = Array.from(blank.querySelectorAll(".blankify-element")).filter(el => window.getComputedStyle(el).display != "none").length;
+		console.log(elementCount);
 
+		blank.querySelector(".no-content-message").style.visibility = elementCount === 0 ? "visible" : "hidden";
+		blank.querySelector(".no-content-message").style.opacity = elementCount === 0 ? "1" : "0";
+	});
+});
+
+observer.observe(document, {
+	childList: true,
+	subtree: true,
+	attributes: true,
+	attributeFilter: ['class']
+});
 
 function toggleOverlay() {
-	const overlay = document.getElementById("overlay");
-	overlay.style.backdropFilter == "blur(10px)" ? overlay.style.backdropFilter = "none" : overlay.style.backdropFilter = "blur(10px)";
-	overlay.style.pointerEvents == "auto" ? overlay.style.pointerEvents = "none" : overlay.style.pointerEvents = "auto";
+	const overlay = document.querySelector(".overlay");
+  const popups = Array.from(document.querySelectorAll('.expanded'));
+
+  if (popups.length > 0) {
+    // Find the highest z-index among open popups
+    const highestZIndex = Math.max(
+      ...popups.map(popup => Number(window.getComputedStyle(popup).zIndex) || 0)
+    );
+
+    overlay.style.zIndex = highestZIndex;
+
+		overlay.style.backdropFilter = "blur(10px)";
+		overlay.style.pointerEvents = "auto";
+  } else {
+    overlay.style.backdropFilter = "none";
+		overlay.style.pointerEvents = "none";
+  }
 }
 
+class Popup {
+	constructor(id) {
+		this.id = id;
+	}
 
+	get self() {
+		return document.querySelector(this.id);
+	}
+
+	close() {
+		console.log("closed");
+		this.self.classList.remove("expanded");
+		toggleOverlay();
+	}
+
+	open() {
+		console.log("opened");
+		this.self.classList.add("expanded");
+		toggleOverlay();
+	}
+}
+
+const elementsPopup = new Popup(".elements-popup");
 
 // Event Listeners
 document.addEventListener("DOMContentLoaded", () => {
@@ -105,23 +125,27 @@ document.addEventListener("DOMContentLoaded", () => {
 
 		const expandButton = e.target.closest(".expand");
     if (expandButton && card.contains(expandButton)) {
-        document.querySelectorAll(".card").forEach(el => el.classList.remove("expanded"));
-        card.classList.add("expanded");
-        toggleOverlay();
-        return;
+			document.querySelectorAll(".card").forEach(el => el.classList.remove("expanded"));
+			card.classList.add("expanded");
+			toggleOverlay();
+			adjustFontSize();
+			return;
     }
 
     const xButton = e.target.closest(".xButton");
     if (xButton && card.contains(xButton)) {
-        card.classList.remove("expanded", "editMode");
-        toggleOverlay();
-        return;
+			card.classList.remove("expanded", "editMode");
+			document.querySelector(".tool-wheel").classList.remove("editMode");
+			toggleOverlay();
+			adjustFontSize();
+			return;
     }
 
     const editButton = e.target.closest(".edit-button");
     if (editButton && card.contains(editButton)) {
-        card.classList.toggle("editMode");
-        return;
+			card.classList.toggle("editMode");
+			document.querySelector(".tool-wheel").classList.toggle("editMode");
+			return;
     }
 
 		const editImage = e.target.closest(".editImage");
@@ -155,5 +179,54 @@ document.addEventListener("DOMContentLoaded", () => {
 				reader.readAsDataURL(file);
 			}
 		}
+	});	
+
+	document.addEventListener("input", function (e) {
+		e.stopPropagation();
+		const autoInput = document.querySelectorAll('.autoInput');
+		if (e.target.matches(".autoInput")) {
+			autoInput.forEach(input => {
+				input.addEventListener('input', () => {
+					const hiddenSpan = input.parentElement.querySelector(".text-measurer");
+					hiddenSpan.textContent = input.value || input.placeholder;
+					input.style.width = hiddenSpan.offsetWidth + 10 + 'px'; // Add padding
+				});
+			});
+		}
+	});
+
+	// Popups
+	document.addEventListener("click", (e) => {
+		const addElement = e.target.closest(".addElement");
+
+		if (e.target.matches(".close")) {
+			elementsPopup.close();
+		}
+
+		if (e.target.matches(".addToCard")) {
+			let optionIndex = Array.from(e.target.closest(".expanded").querySelectorAll(".option")).indexOf(e.target.closest(".option"));
+			if (optionIndex === -1) return;
+			e.target.closest(".option").style.display = "none";
+			document.querySelectorAll(".expanded .element")[optionIndex].classList.toggle("hidden");
+			elementsPopup.close();
+		}
+
+		if (addElement) {
+			console.log("Opened");
+			document.querySelectorAll(".elements-popup .option").forEach((option, index) => {
+				if (document.querySelectorAll(".expanded .element") && document.querySelectorAll(".expanded .element")[index].classList.contains("hidden")) {
+					option.style.display = "flex";
+				} else {
+					option.style.display = "none";
+				}
+			});
+			elementsPopup.open();
+		}
 	});
 });
+
+function adjustFontSize() {
+	document.querySelectorAll(".card").forEach(card => {
+		card.style.fontSize = `${card.offsetWidth / 400}em`;
+	});
+}

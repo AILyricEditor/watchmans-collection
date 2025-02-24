@@ -8,7 +8,7 @@
 	--gradient: linear-gradient(45deg, #4b4e5f 10%, #13141a 100%);
 	--border: #9da1b9;
 	--text-color: #ebebeb;
-	--edit-color: #1eff00;
+	--edit-color: #18cc00;
 }
 
 * {
@@ -24,24 +24,32 @@ body, html {
 	background: var(--background);
 	-webkit-font-smoothing: antialiased; /* For WebKit-based browsers */
   -moz-osx-font-smoothing: grayscale; /* For Firefox on macOS */
+	text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.404);
+
+	& svg {
+		filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.322));
+	}
 }
 
-#overlay {
-	/* display: none; */
+/* This is for svg elements because when they are located within button click handler bug out */
+svg * {
+  pointer-events: none;
+}
+
+.overlay {
 	backdrop-filter: blur(0px);
 	pointer-events: none;
 	transition: backdrop-filter 500ms ease;
 	width: 100%;
 	height: 100%;
 	position:fixed;
-	z-index: 2;
 }
 
 main {
 	width: 100%;
 	padding: 30px;
 	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+	grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
 	gap: 25px;
 }
 
@@ -51,6 +59,7 @@ main {
 ::-webkit-scrollbar {
 	width: 10px;
 }
+
 
 ::-webkit-scrollbar-track {
 	background: var(--background);
@@ -82,16 +91,16 @@ main {
 	display: flex;
 	flex-direction: column;
 	align-items: start;
-	gap: 20px;
+	gap: 1em;
 	width: 100%;
 	height: auto;
-	min-height: 200px;
+	min-height: 400px;
 	background: var(--gradient);
 	opacity: 0.85;
 	border: 2px solid var(--accent);
 	border-radius: 5px;
 	padding: 20% 12%;
-	transition: opacity 0.3s, transform 0.3s, scale 500ms ease;
+	transition: opacity 0.3s, transform 0.3s, scale 500ms, color 0.3s, border-color 0.3s ease-in-out;
 
 	&:hover {
 		transform: scale(1.03);
@@ -99,9 +108,19 @@ main {
 	}
 }
 
+.no-content-message {
+	position: absolute;
+  top: 50%;
+	left: 50%;
+	translate: -50% -50%;
+	color: var(--text-color);
+	text-align: center;
+	transition: opacity 0.5s ease-in-out;
+}
+
 .editMode {
 	border: 2px solid var(--edit-color);
-
+	
 	& .cardCount {
 		color: var(--edit-color);
 	}
@@ -118,13 +137,27 @@ main {
 		}
 	}
 
+	& .input-group.main .preview-wrap img, .input-group.face.active {
+		border: 1px solid var(--edit-color);
+	}
+
 	& .delete-card {
-		display: flex;
+		opacity: 1;
+		visibility: visible;
 	}
 
 	& .name label {
 		display: block;
 	}
+
+	&.tool-wheel {
+		translate: 50% 50%;
+	}
+}
+
+.popup.expanded {
+	scale: 1;
+	opacity: 1;
 }
 
 .card.expanded {
@@ -133,14 +166,17 @@ main {
 	left: 50%;
 	translate: -50% -50%;
 	width: 60%;
-	height: auto;
-	max-height: 90%;
+	height: 90%;
 	z-index: 3;
 	opacity: 1;
 	transform: scale(0.9);
 	box-shadow: 0px 0px 50px rgba(0, 0, 0, 0.863);
-	padding: 60px 50px;
+	padding: 80px 80px;
 	overflow-y: auto;
+
+	& .input-group.main {
+		min-height: 8em;
+	}
 
 	& .expand {
 		display: none;
@@ -148,6 +184,12 @@ main {
 
 	& .cardTools {
 		display: flex;
+	}
+
+	& .cardCount {
+		font-size: 1em;
+		top: 15px;
+		left: 15px;
 	}
 }
 
@@ -200,7 +242,7 @@ main {
 	position: absolute;
 	top: 10px;
 	left: 10px;
-	font-size: 20px;
+	font-size: 1.7em;
 	font-weight: bold;
 	color: var(--accent);
 }
@@ -225,11 +267,13 @@ main {
 }
 
 .delete-card {
-	display: none;
+	visibility: hidden;
+	opacity: 0;
+	display: flex;
 	position: absolute;
-	right: 20px;
-	width: 100px;
-	height: 30px;
+	left: 30px;
+	width: 150px;
+	height: 40px;
 	border: 2px solid red;
 	border-radius: 10px;
 	padding: 15px;
@@ -238,6 +282,8 @@ main {
 	justify-content: center;
 	cursor: pointer;
 	transition: all 0.2s ease-in-out;
+	font-size: 0.6em;
+	gap: 5px;
 
 	&:hover {
 		scale: 1.1;
@@ -273,10 +319,14 @@ main {
 	border-radius: 5px;
 	text-align: center;
 
+	& * {
+		transition: border-color 0.2s ease-in-out;
+	}
+
 	& svg {
 		align-self: center;
-		width: 40%;
-		height: 40%;
+		width: calc(1em + 20%);
+		height: auto;
 	}
 
 	& input {
@@ -353,9 +403,11 @@ main {
 }
 
 /* Main styling */
-.input-group.main {
+.main {
+	/* display: none; */
 	width: 100%;
 	height: auto;
+	min-height: 8em;
 	align-self: center;
 
 	& img {
@@ -367,11 +419,13 @@ main {
 
 
 /* Face styling */
-.input-group.face {
+.face {
+	/* display: none; */
 	width: 20%;
 	aspect-ratio: 1 / 1;
 	border-radius: 999px;
 	overflow: hidden;
+	font-size: 0.7em;
 
 	&.active {
 		border: 1px solid var(--accent);
@@ -399,34 +453,39 @@ main {
 }
 
 
+/* Hidden class is toggled by javaScript */
+.hidden {
+	display: none !important;
+}
+
 
 
 
 .name {
+	/* display: none; */
+  display: grid;
+  grid-template-rows: auto;
+	width: auto;
+  
+  & h4 {
+    grid-row: 1;
+  }
+
 	& label {
 		display: none;
-		margin-top: 10px;
+    grid-row: 2;
 		font-size: 0.8em;
 	}
 
 	& input {
-		font-size: 1.4em;
-		width: 60px; /* Initial width */
+    grid-row: 3;
+		font-size: 1.5em;
+		width: 2.6em;
 	}
 }
 
-.nameTypeGroup {
-	display: inline-flex;
-	flex-direction: column;
-}
-
-form.name-group {
-	display: flex;
-	align-items: start;
-	flex-direction: row;
-}
-
 .input {
+  overflow: visible;
 	background: none;
 	border: none;
 	outline: none;
@@ -438,19 +497,7 @@ form.name-group {
   visibility: hidden;
   white-space: pre;
   font: inherit; /* Ensure font matches input */
-	font-size: 1.4em;
-}
-
-.nameInput-wrap {
-	position: relative;
-	display: flex;
-	align-items: center;
-	justify-content: start;
-	flex-direction: row;
-	gap: 5px;
-	width: 100%;
-	height: 10px;
-	margin-top: 10px;
+	font-size: 1.5em;
 }
 
 
@@ -458,24 +505,27 @@ form.name-group {
 .license-plate {
 	width: 60%;
 	display: flex;
+	/* display: none; */
 	align-items: center;
 	justify-content: center;
+	/* overflow: hidden; */
 
 	& img {
 		width: 100%;
 	}
 
 	& .license-input {
-	position: absolute;
-	z-index: 1;
-	width: 100%;
-	font-family: 'Oswald', sans-serif;
-	color: red;
-	text-shadow: 
-    -1px -1px 20px #ffffff, /* Top left highlight */
-    1px 1px 2px rgba(0, 0, 0, 0.753); /* Bottom right shadow */
-	text-align: center;
-	text-transform: uppercase;
+		position: absolute;
+		z-index: 1;
+		width: 100%;
+		font-family: 'Oswald', sans-serif;
+		color: red;
+		text-shadow: 
+			-1px -1px 20px #ffffff, /* Top left highlight */
+			1px 1px 2px rgba(0, 0, 0, 0.753); /* Bottom right shadow */
+		text-align: center;
+		text-transform: uppercase;
+		font-size: 3em;
 	}
 }
 
@@ -506,6 +556,183 @@ form.name-group {
 	}
 }
 
+
+/* Popups */
+
+.popup {
+	scale: 0;
+	opacity: 0;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	translate: -50% -50%;
+	z-index: 4;
+	width: 40%;
+	min-width: 300px;
+	height: 60%;
+	border: 1px solid var(--border);
+	border-radius: 5px;
+	background: var(--background);
+	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.39), 0 4px 6px rgba(0, 0, 0, 0.158);
+	transition: all 0.2s ease-in-out;
+
+
+	& .popup-topbar {
+		position: relative;
+		display: flex;
+		align-items: center;
+		width: 100%;
+		height: 14%;
+		padding: 15px;
+		border-bottom: 1px solid var(--border);
+	}
+
+	& .close {
+		position: absolute;
+		right: 15px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 25px;
+		height: 25px;
+		font-size: x-large;
+		cursor: pointer;
+		border-radius: 5px;
+		background-color: transparent;
+		border: none;
+		transition: all 0.2s ease-in-out;
+
+		&:hover {
+			background-color: var(--accent);
+		}
+
+		&:active {
+			scale: 1.1;
+		}
+	}
+
+	& hr {
+		width: 100%;
+		height: 1px;
+		border: 0;
+		background: var(--border);
+	}
+
+	& .options-wrap {
+		display: flex;
+		flex-direction: column;
+		align-self: center;
+		justify-content: start;
+		gap: 15px;
+		height: 86%;
+		width: 100%;
+		padding: 15px;
+		overflow-y: auto;
+	}
+
+	& .option {
+		position: relative;
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		list-style-type: none;
+		background-color: var(--primary);
+		border-radius: 5px;
+		padding: 10px;
+		transition: all 0.2s ease-in-out;
+		cursor: pointer;
+
+		&:hover {
+			background-color: color-mix(in srgb, var(--primary) 80%, white 20%);
+			scale: 1.01;
+		}
+
+		& svg:first-of-type {
+			width: 35px;
+			height: 35px;
+			margin-right: 10px;
+			background: var(--primary);
+			border-radius: 5px;
+			padding: 5px;
+			filter:drop-shadow(2px 2px 5px rgba(0, 0, 0, 0.911)) drop-shadow(-2px -2px 5px rgba(255, 255, 255, 0.377));
+			/* fill: var(--background); */
+			/* border: 1px solid var(--border); */
+		}
+
+		& p {
+			font-size: 0.7em;
+			width: 90%;
+			margin-top: 2px;
+		}
+
+		& svg:last-of-type {
+			position: absolute;
+			right: 10px;
+			border-radius: 5px;
+			border-color: transparent;
+			transition: all 0.2s ease-in-out;
+
+			&:hover {
+				background-color: color-mix(in srgb, var(--edit-color) 80%, transparent 20%);
+				transform: scale(1.2);
+			}
+		}
+	}
+}
+
+.tool-wheel {
+	position: fixed;
+	z-index: 10;
+	bottom: 0;
+	right: 0;
+	translate: 100% 100%;
+	background: rgba(255, 255, 255, 0.123);
+	backdrop-filter: blur(10px);
+	border-radius: 50%;
+	border: 2px solid var(--border);
+	width: 500px;
+	height: 500px;
+	transition: all 0.2s ease-in-out;
+
+	&:hover {
+		scale: 1.05;
+		background: rgba(255, 255, 255, 0.185);
+	}
+
+	& .addElement {
+		position: absolute;
+		top: 25%;
+		left: 25%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 20%;
+		height: 20%;
+		border: 2px solid var(--background);
+		border-radius: 50%;
+		background: var(--edit-color);
+		padding: 5px;
+		z-index: 10;
+		transition: all 0.15s ease-in-out;
+
+		&:hover {
+			scale: 1.1;
+			background-color: color-mix(in srgb, var(--edit-color) 70%, #ffffff 30%);
+		}
+
+		&:active {
+			scale: 1.1;
+			background-color: color-mix(in srgb, var(--edit-color) 90%, #000000 10%);
+			scale: 1.2;
+		}
+	
+		& svg {
+			width: 100%;
+			height: 100%;
+		}
+	}
+}
+
 @media screen and (max-width: 700px) {
 	main {
 		grid-template-columns: 1fr;
@@ -520,5 +747,10 @@ form.name-group {
 		width: 95%;
 		height: auto;
 		max-height: 80%;
+	}
+
+	.tool-wheel {
+		width: 400px;
+		height: 400px;
 	}
 }
