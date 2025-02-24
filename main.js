@@ -54,6 +54,24 @@ function update() {
 window.addEventListener('resize', () => { update() });
 update();
 
+// Mutation Observer
+const observer = new MutationObserver(() => {
+	document.querySelectorAll(".blankify").forEach(blank => {
+		const elementCount = Array.from(blank.querySelectorAll(".blankify-element")).filter(el => window.getComputedStyle(el).display != "none").length;
+		console.log(elementCount);
+
+		blank.querySelector(".no-content-message").style.visibility = elementCount === 0 ? "visible" : "hidden";
+		blank.querySelector(".no-content-message").style.opacity = elementCount === 0 ? "1" : "0";
+	});
+});
+
+observer.observe(document, {
+	childList: true,
+	subtree: true,
+	attributes: true,
+	attributeFilter: ['class']
+});
+
 function toggleOverlay() {
 	const overlay = document.querySelector(".overlay");
   const popups = Array.from(document.querySelectorAll('.expanded'));
