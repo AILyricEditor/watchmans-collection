@@ -180,21 +180,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			}
 		}
 	});	
-
-	document.addEventListener("input", function (e) {
-		e.stopPropagation();
-		const autoInput = document.querySelectorAll('.autoInput');
-		if (e.target.matches(".autoInput")) {
-			autoInput.forEach(input => {
-				input.addEventListener('input', () => {
-					const hiddenSpan = input.parentElement.querySelector(".text-measurer");
-					hiddenSpan.textContent = input.value || input.placeholder;
-					input.style.width = hiddenSpan.offsetWidth + 10 + 'px'; // Add padding
-				});
-			});
-		}
-	});
-
+	
 	// Popups
 	document.addEventListener("click", (e) => {
 		const addElement = e.target.closest(".addElement");

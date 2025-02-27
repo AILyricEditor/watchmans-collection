@@ -465,7 +465,7 @@ main {
 	/* display: none; */
   display: grid;
   grid-template-rows: auto;
-	width: auto;
+	column-gap: 0.5em;
   
   & h4 {
     grid-row: 1;
@@ -480,7 +480,7 @@ main {
 	& input {
     grid-row: 3;
 		font-size: 1.5em;
-		width: 2.6em;
+		field-sizing: content;
 	}
 }
 
